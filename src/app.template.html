@@ -491,6 +491,18 @@ figure.trappa svg { display: block; width: 100%; height: auto; overflow: visible
 .tl-body h3 { font-family: "IBM Plex Sans", sans-serif; font-size: 14px; font-weight: 600; letter-spacing: 0; }
 .tl-item.key .tl-body h3 { font-size: 15px; }
 .tl-body p { margin: 2px 0 0; font-size: 13px; color: var(--ink-2); max-width: 60ch; }
+/* vad-om */
+.vadom-list { display: flex; flex-direction: column; gap: 2px; }
+.vadom-row { display: grid; grid-template-columns: 1fr auto; gap: 8px; align-items: baseline; padding: 7px 10px; border-radius: 6px; font-size: 13px; }
+.vadom-row:nth-child(odd) { background: var(--surface-2); }
+.vadom-subj { font-weight: 600; }
+.vadom-change { color: var(--ink-2); }
+.vadom-change b { color: var(--ink); }
+.vadom-delta { font-family: "IBM Plex Mono", monospace; font-size: 12.5px; white-space: nowrap; color: var(--st-safe); font-weight: 600; }
+.vadom-extra { font-size: 12px; color: var(--ink-3); margin-top: 2px; }
+.vadom-extra .unlock { color: var(--st-safe); font-weight: 500; }
+.vadom-extra .behov { color: var(--st-border); font-weight: 500; }
+.vadom-empty { font-size: 13px; color: var(--ink-3); padding: 8px 0; }
 .tl-past { opacity: 0.45; }
 .tl-past .tl-mark i { background: var(--line-strong) !important; border-color: var(--line-strong) !important; }
 .tl-active { background: color-mix(in oklab, var(--accent) 10%, transparent); border-radius: 8px; padding: 2px 8px; margin: -2px -8px; }
@@ -772,6 +784,12 @@ footer.foot p { margin: 0 0 5px; max-width: 78ch; }
           <span class="eyebrow">Behörighet</span>
           <h3 style="font-family:'IBM Plex Sans';font-size:15px;font-weight:600;letter-spacing:0;margin:4px 0 2px">Vad betygen räcker till</h3>
           <div class="checks" id="behorighet"></div>
+        </div>
+        <div class="card" id="vadomCard" hidden>
+          <span class="eyebrow">Vad-om</span>
+          <h3 style="font-family:'IBM Plex Sans';font-size:15px;font-weight:600;letter-spacing:0;margin:4px 0 2px">Om du höjer ett betyg</h3>
+          <p class="prose" style="margin:0 0 10px;font-size:13px;color:var(--ink-2)">Varje rad visar vad som händer om du höjer just det ämnet ett betygssteg – hur meritvärdet ändras och vilka utbildningar som blir nåbara.</p>
+          <div id="vadom"></div>
         </div>
       </div>
     </div>
@@ -1643,6 +1661,81 @@ function renderGrades() {
       rad(b['hf-so'], 'Ekonomi, humanistiska, samhällsvetenskap', b['hf-so'] ? 'Basämnena + 9 andra, inklusive ge, hi, sh och re.' : `Kräver även godkänt i geografi, historia, samhällskunskap och religionskunskap.${b.hf ? '' : ` Du har ${b.ovriga} av 9 andra ämnen.`}`),
       rad(b['hf-no'], 'Natur och teknik', b['hf-no'] ? 'Basämnena + 9 andra, inklusive biologi, fysik och kemi.' : `Kräver även godkänt i biologi, fysik och kemi.${b.hf ? '' : ` Du har ${b.ovriga} av 9 andra ämnen.`}`),
     ].join('');
+
+  renderVadom(m);
+}
+
+function renderVadom(nuMerit) {
+  const card = el('vadomCard');
+  if (!nuMerit.harBetyg) { card.hidden = true; return; }
+  card.hidden = false;
+
+  const STEP_UP = { F: 'E', E: 'D', D: 'C', C: 'B', B: 'A' };
+  const allSubjects = [...SUBJECTS, LANG];
+  const nuSumma = nuMerit.summa;
+
+  // For each subject, simulate raising grade one step
+  const rows = [];
+  for (const subj of allSubjects) {
+    const current = state.betyg[subj.k];
+    if (!current || current === 'A') continue; // can't improve
+    const next = STEP_UP[current];
+    if (!next) continue;
+
+    // Simulate
+    const saved = state.betyg[subj.k];
+    state.betyg[subj.k] = next;
+    const simMerit = raknaMerit();
+    const simBehor = behorighet();
+    state.betyg[subj.k] = saved;
+
+    const delta = simMerit.summa - nuSumma;
+
+    // Check eligibility changes
+    const nuBehor = behorighet();
+    const unlocked = [];
+    const bNames = { yrke: 'yrkesprogram', hf: 'estetiska', 'hf-so': 'EK/HU/SA', 'hf-no': 'NA/TE' };
+    for (const bk of ['yrke', 'hf', 'hf-so', 'hf-no']) {
+      if (!nuBehor[bk] && simBehor[bk]) unlocked.push(bNames[bk]);
+    }
+
+    // Count new reachable programs (within chance)
+    let nyaNarbara = 0;
+    if (delta > 0) {
+      const simScore = nuSumma + delta;
+      for (const e of EDU) {
+        if (e.prov || e.ref == null) continue;
+        const nuChans = bedom(e, nuSumma).k;
+        const simChans = bedom(e, simScore).k;
+        if (!REACHABLE.has(nuChans) && REACHABLE.has(simChans)) nyaNarbara++;
+      }
+    }
+
+    if (delta === 0 && !unlocked.length && nyaNarbara === 0) continue;
+    rows.push({ subj, current, next, delta, unlocked, nyaNarbara });
+  }
+
+  // Sort by impact: delta desc, then unlocked
+  rows.sort((a, b) => (b.delta + b.unlocked.length * 100 + b.nyaNarbara) - (a.delta + a.unlocked.length * 100 + a.nyaNarbara));
+
+  if (!rows.length) {
+    el('vadom').innerHTML = '<div class="vadom-empty">Alla betyg är A – inget att höja!</div>';
+    return;
+  }
+
+  el('vadom').innerHTML = '<div class="vadom-list">' + rows.map((r) => {
+    const extras = [];
+    if (r.nyaNarbara > 0) extras.push(`<span class="unlock">+${r.nyaNarbara} utbildning${r.nyaNarbara === 1 ? '' : 'ar'} nåbar${r.nyaNarbara === 1 ? '' : 'a'}</span>`);
+    if (r.unlocked.length) extras.push(`<span class="behov">öppnar behörighet till ${esc(r.unlocked.join(', '))}</span>`);
+    return `<div class="vadom-row">
+      <div>
+        <span class="vadom-subj">${esc(r.subj.n)}</span>
+        <span class="vadom-change">${r.current} → <b>${r.next}</b></span>
+        ${extras.length ? `<div class="vadom-extra">${extras.join(' · ')}</div>` : ''}
+      </div>
+      <span class="vadom-delta">+${pt(r.delta)}</span>
+    </div>`;
+  }).join('') + '</div>';
 }
 
 /* --------------------------------------------------------------- datum --- */
