@@ -1,0 +1,1855 @@
+<title>Gymnasiekollen</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+<style>
+:root {
+  color-scheme: light;
+  --bg: #edf0f2;
+  --surface: #fbfcfd;
+  --surface-2: #e4e9ec;
+  --surface-3: #d8e0e5;
+  --line: #cfd8de;
+  --line-strong: #b3c0c8;
+  --ink: #101a20;
+  --ink-2: #4f5f68;
+  --ink-3: #74858e;
+  --accent: #17527d;
+  --accent-soft: #dce8f2;
+  --accent-ink: #ffffff;
+  --st-safe: #106b3c;
+  --st-likely: #5a7f18;
+  --st-border: #a4620c;
+  --st-tough: #9c2b2b;
+  --st-neutral: #4f5f68;
+  --bar: #4d7fa8;
+  --shadow: 0 1px 2px rgba(16, 26, 32, .06), 0 8px 24px -18px rgba(16, 26, 32, .35);
+  --radius: 10px;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    color-scheme: dark;
+    --bg: #0e1418;
+    --surface: #151e23;
+    --surface-2: #1c272e;
+    --surface-3: #24323a;
+    --line: #2a3841;
+    --line-strong: #3d4f5a;
+    --ink: #e7eef2;
+    --ink-2: #9cb0ba;
+    --ink-3: #7b909b;
+    --accent: #74b6e8;
+    --accent-soft: #1a2c3c;
+    --accent-ink: #08121a;
+    --st-safe: #52c184;
+    --st-likely: #a6c74e;
+    --st-border: #e2a445;
+    --st-tough: #ee8079;
+    --st-neutral: #9cb0ba;
+    --bar: #79aed4;
+    --shadow: 0 1px 2px rgba(0, 0, 0, .4), 0 10px 30px -20px rgba(0, 0, 0, .8);
+  }
+}
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --bg: #0e1418;
+  --surface: #151e23;
+  --surface-2: #1c272e;
+  --surface-3: #24323a;
+  --line: #2a3841;
+  --line-strong: #3d4f5a;
+  --ink: #e7eef2;
+  --ink-2: #9cb0ba;
+  --ink-3: #7b909b;
+  --accent: #74b6e8;
+  --accent-soft: #1a2c3c;
+  --accent-ink: #08121a;
+  --st-safe: #52c184;
+  --st-likely: #a6c74e;
+  --st-border: #e2a445;
+  --st-tough: #ee8079;
+  --st-neutral: #9cb0ba;
+  --bar: #79aed4;
+  --shadow: 0 1px 2px rgba(0, 0, 0, .4), 0 10px 30px -20px rgba(0, 0, 0, .8);
+}
+
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font: 400 15px/1.55 "IBM Plex Sans", ui-sans-serif, system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+h1, h2, h3 {
+  font-family: "Bricolage Grotesque", "IBM Plex Sans", sans-serif;
+  font-weight: 800;
+  letter-spacing: -.02em;
+  text-wrap: balance;
+  margin: 0;
+}
+a { color: var(--accent); text-decoration-thickness: 1px; text-underline-offset: 2px; }
+button { font: inherit; color: inherit; cursor: pointer; }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; border-radius: 4px; }
+.num { font-family: "IBM Plex Mono", ui-monospace, monospace; font-variant-numeric: tabular-nums; }
+.eyebrow {
+  font: 600 11px/1 "IBM Plex Sans", sans-serif;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+}
+.wrap { max-width: 1220px; margin: 0 auto; padding: 0 20px; }
+
+/* ---------- topp ---------- */
+header.top { border-bottom: 1px solid var(--line); background: var(--surface); }
+.top-in { display: flex; align-items: flex-start; gap: 24px; padding: 20px 0 16px; flex-wrap: wrap; }
+.brand { display: flex; flex-direction: column; gap: 3px; margin-right: auto; }
+.brand h1 { font-size: clamp(24px, 3.4vw, 32px); }
+.brand p { margin: 0; color: var(--ink-2); font-size: 13.5px; max-width: 46ch; }
+.top-actions { display: flex; align-items: center; gap: 8px; }
+.ghost {
+  background: transparent; border: 1px solid var(--line-strong); border-radius: 8px;
+  padding: 7px 11px; font-size: 13px; color: var(--ink-2); display: inline-flex; gap: 6px; align-items: center;
+}
+.ghost:hover { border-color: var(--accent); color: var(--accent); }
+.sync { font-size: 12px; color: var(--ink-3); display: flex; align-items: center; gap: 6px; }
+.sync b { font-weight: 500; color: var(--ink-2); }
+.dot { width: 7px; height: 7px; border-radius: 50%; background: var(--st-safe); }
+.dot.off { background: var(--line-strong); }
+
+nav.tabs { display: flex; gap: 2px; overflow-x: auto; scrollbar-width: none; }
+nav.tabs::-webkit-scrollbar { display: none; }
+nav.tabs button {
+  background: none; border: 0; border-bottom: 2px solid transparent;
+  padding: 10px 14px 11px; font-size: 14px; font-weight: 500; color: var(--ink-2); white-space: nowrap;
+}
+nav.tabs button[aria-selected="true"] { color: var(--ink); border-bottom-color: var(--accent); }
+nav.tabs button:hover { color: var(--ink); }
+nav.tabs .count {
+  font: 600 11px/1 "IBM Plex Mono", monospace; background: var(--surface-3); color: var(--ink-2);
+  border-radius: 20px; padding: 3px 6px; margin-left: 6px;
+}
+
+/* ---------- meritpanel ---------- */
+.merit {
+  background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius);
+  box-shadow: var(--shadow); padding: 18px 20px; margin: 20px 0;
+  display: grid; grid-template-columns: minmax(230px, 300px) 1fr; gap: 26px; align-items: center;
+}
+@media (max-width: 780px) { .merit { grid-template-columns: 1fr; gap: 18px; } }
+.merit-in { display: flex; flex-direction: column; gap: 10px; }
+.merit-row { display: flex; align-items: baseline; gap: 10px; }
+.merit-row input[type="number"] {
+  width: 132px; font-family: "IBM Plex Mono", monospace; font-size: 40px; font-weight: 600;
+  letter-spacing: -.02em; padding: 2px 8px; background: var(--surface-2);
+  border: 1px solid var(--line-strong); border-radius: 8px; color: var(--ink);
+}
+.merit-row .of { color: var(--ink-3); font-size: 14px; }
+.merit input[type="range"] { width: 100%; accent-color: var(--accent); }
+.merit label.lbl { font-size: 13px; color: var(--ink-2); }
+.tag {
+  display: inline-flex; align-items: center; gap: 5px; font-size: 11.5px; font-weight: 500;
+  border: 1px solid var(--line-strong); border-radius: 20px; padding: 2px 9px; color: var(--ink-2);
+}
+.tag.example { border-color: var(--st-border); color: var(--st-border); }
+
+figure.dist { margin: 0; display: flex; flex-direction: column; gap: 6px; }
+figure.dist figcaption { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; }
+figure.dist figcaption span { font-size: 12px; color: var(--ink-3); }
+.chart-hold { position: relative; }
+.chart-hold svg { display: block; width: 100%; height: auto; overflow: visible; }
+.tip {
+  position: absolute; pointer-events: none; opacity: 0; transform: translate(-50%, -100%);
+  background: var(--ink); color: var(--bg); font-size: 12px; line-height: 1.35;
+  padding: 6px 9px; border-radius: 6px; white-space: nowrap; transition: opacity .12s; z-index: 5;
+}
+.tip.on { opacity: 1; }
+.tip b { font-family: "IBM Plex Mono", monospace; }
+
+/* ---------- filter ---------- */
+.layout { display: grid; grid-template-columns: 252px 1fr; gap: 22px; align-items: start; padding-bottom: 60px; }
+@media (max-width: 940px) { .layout { grid-template-columns: 1fr; } }
+aside.rail {
+  background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius);
+  padding: 6px 16px 16px; position: sticky; top: 12px;
+}
+@media (max-width: 940px) { aside.rail { position: static; } }
+.fset { border: 0; margin: 0; padding: 14px 0 0; border-top: 1px solid var(--line); }
+.fset:first-of-type { border-top: 0; }
+.fset legend { padding: 0 0 8px; }
+.seg { display: flex; background: var(--surface-2); border-radius: 8px; padding: 2px; gap: 2px; }
+.seg button {
+  flex: 1; background: none; border: 0; border-radius: 6px; padding: 6px 4px;
+  font-size: 12.5px; color: var(--ink-2); font-weight: 500;
+}
+.seg button[aria-pressed="true"] { background: var(--surface); color: var(--ink); box-shadow: var(--shadow); }
+.chips { display: flex; flex-wrap: wrap; gap: 5px; }
+.chips button {
+  background: var(--surface-2); border: 1px solid transparent; border-radius: 20px;
+  padding: 4px 9px; font-size: 12px; color: var(--ink-2);
+}
+.chips button[aria-pressed="true"] { background: var(--accent-soft); border-color: var(--accent); color: var(--accent); font-weight: 500; }
+.chips.scroll { max-height: 188px; overflow-y: auto; }
+input[type="search"], select, textarea {
+  width: 100%; font: inherit; font-size: 13.5px; padding: 8px 10px; color: var(--ink);
+  background: var(--surface-2); border: 1px solid var(--line-strong); border-radius: 8px;
+}
+.clearall { background: none; border: 0; padding: 0; font-size: 12.5px; color: var(--accent); text-decoration: underline; }
+
+/* ---------- resultatlista ---------- */
+.results { display: flex; flex-direction: column; gap: 10px; min-width: 0; }
+.results-head { display: flex; align-items: baseline; gap: 12px; flex-wrap: wrap; }
+.results-head h2 { font-size: 17px; }
+.results-head .sub { font-size: 13px; color: var(--ink-2); margin-right: auto; }
+.sort { display: flex; align-items: center; gap: 6px; font-size: 12.5px; color: var(--ink-2); }
+.sort select { width: auto; padding: 5px 8px; font-size: 12.5px; }
+
+.rows { display: flex; flex-direction: column; gap: 6px; }
+.row {
+  background: var(--surface); border: 1px solid var(--line); border-radius: 9px;
+  display: grid; grid-template-columns: 26px minmax(0, 1fr) auto 148px; gap: 16px;
+  align-items: center; padding: 10px 14px 10px 8px;
+}
+.row:hover { border-color: var(--line-strong); }
+.row.is-pick { border-left: 3px solid var(--accent); padding-left: 6px; }
+@media (max-width: 760px) {
+  .row { grid-template-columns: 26px 1fr; grid-template-areas: "star main" ". stats" ". chance"; row-gap: 8px; }
+  .row .r-star { grid-area: star; } .row .r-main { grid-area: main; }
+  .row .r-stats { grid-area: stats; } .row .r-chance { grid-area: chance; justify-self: start; }
+}
+.star {
+  background: none; border: 0; padding: 3px; line-height: 0; color: var(--ink-3); border-radius: 6px;
+}
+.star:hover { color: var(--accent); }
+.star[aria-pressed="true"] { color: var(--accent); }
+.star svg { width: 18px; height: 18px; }
+.r-main { min-width: 0; display: flex; flex-direction: column; gap: 2px; }
+.r-main .school { font-weight: 600; font-size: 14.5px; }
+.r-main .prog { font-size: 13.5px; color: var(--ink-2); }
+.r-main .meta { font-size: 11.5px; color: var(--ink-3); display: flex; gap: 6px; flex-wrap: wrap; }
+.r-main .meta .pill {
+  border: 1px solid var(--line); border-radius: 4px; padding: 0 5px; font-weight: 500;
+}
+.r-stats { display: flex; gap: 14px; font-size: 12px; }
+.r-stats div { display: flex; flex-direction: column; gap: 1px; align-items: flex-end; }
+.r-stats .k { font-size: 9.5px; letter-spacing: .05em; text-transform: uppercase; color: var(--ink-3); white-space: nowrap; }
+.r-stats .v { white-space: nowrap; }
+.r-stats .v { font-family: "IBM Plex Mono", monospace; font-variant-numeric: tabular-nums; font-size: 13px; font-weight: 500; }
+.r-stats .v.dim { color: var(--ink-3); font-weight: 400; }
+.r-chance { display: flex; flex-direction: column; gap: 3px; align-items: flex-end; text-align: right; }
+.badge {
+  --st: var(--st-neutral);
+  display: inline-flex; align-items: center; gap: 6px; font-size: 12px; font-weight: 500;
+  border: 1px solid var(--st); border-radius: 20px; padding: 3px 9px 3px 7px;
+  background: color-mix(in oklab, var(--st) 12%, transparent); color: var(--ink);
+}
+.badge .ico { font-family: "IBM Plex Mono", monospace; color: var(--st); font-weight: 600; }
+.badge.safe { --st: var(--st-safe); } .badge.likely { --st: var(--st-likely); }
+.badge.border { --st: var(--st-border); } .badge.tough { --st: var(--st-tough); }
+.margin { font-family: "IBM Plex Mono", monospace; font-size: 11.5px; color: var(--ink-3); padding-left: 3px; }
+.more { align-self: center; margin-top: 6px; }
+.empty {
+  background: var(--surface); border: 1px dashed var(--line-strong); border-radius: var(--radius);
+  padding: 34px 22px; text-align: center; color: var(--ink-2); font-size: 14px;
+}
+
+.sgroup { display: flex; flex-direction: column; gap: 6px; }
+.sgroup > h3 {
+  font-family: "IBM Plex Sans", sans-serif; font-weight: 600; font-size: 14px; letter-spacing: 0;
+  display: flex; align-items: baseline; gap: 8px; padding: 12px 2px 2px;
+}
+.sgroup > h3 .where { font-weight: 400; font-size: 12.5px; color: var(--ink-3); }
+
+/* ---------- panels ---------- */
+[role="tabpanel"] { padding-bottom: 70px; }
+.card {
+  background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius);
+  padding: 20px 22px; box-shadow: var(--shadow);
+}
+.cols { display: grid; gap: 18px; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); align-items: start; }
+.prose { font-size: 14px; color: var(--ink-2); max-width: 66ch; }
+.prose h3 { font-family: "IBM Plex Sans", sans-serif; font-weight: 600; font-size: 14.5px; color: var(--ink); letter-spacing: 0; margin: 18px 0 6px; }
+.prose h3:first-child { margin-top: 0; }
+.prose p { margin: 0 0 10px; }
+.prose ul { margin: 0 0 10px; padding-left: 20px; }
+.prose li { margin-bottom: 4px; }
+.prose b, .prose strong { color: var(--ink); font-weight: 600; }
+.prose code {
+  font-family: "IBM Plex Mono", monospace; font-size: 12.5px; background: var(--surface-2);
+  border: 1px solid var(--line); border-radius: 4px; padding: 1px 4px;
+}
+
+/* betygstabell */
+.grades { display: flex; flex-direction: column; gap: 3px; }
+.grade-row {
+  display: grid; grid-template-columns: 1fr auto; gap: 12px; align-items: center;
+  padding: 5px 8px; border-radius: 7px;
+}
+.grade-row:nth-child(odd) { background: var(--surface-2); }
+.grade-row .gn { font-size: 13.5px; }
+.grade-row .gn small { display: block; color: var(--ink-3); font-size: 11px; }
+.gbtns { display: flex; gap: 3px; }
+.gbtns button {
+  width: 30px; height: 28px; border-radius: 6px; border: 1px solid var(--line-strong);
+  background: var(--surface); font-family: "IBM Plex Mono", monospace; font-size: 13px; color: var(--ink-2);
+}
+.gbtns button[aria-pressed="true"] { background: var(--accent); border-color: var(--accent); color: var(--accent-ink); font-weight: 600; }
+.gbtns button.f[aria-pressed="true"] { background: var(--st-tough); border-color: var(--st-tough); color: #fff; }
+.gbtns button.none { color: var(--ink-3); }
+.gbtns button.none[aria-pressed="true"] { background: var(--surface-3); border-color: var(--line-strong); color: var(--ink-2); }
+@media (max-width: 620px) {
+  .grade-row { grid-template-columns: 1fr; gap: 5px; padding: 7px 8px; }
+  .gbtns { justify-content: space-between; }
+  .gbtns button { flex: 1; width: auto; }
+}
+.merit-out { display: flex; flex-direction: column; gap: 4px; padding: 14px 0 4px; }
+.merit-out .big { font-family: "IBM Plex Mono", monospace; font-size: 48px; font-weight: 600; letter-spacing: -.03em; line-height: 1; }
+.checks { display: flex; flex-direction: column; gap: 7px; margin-top: 6px; }
+.check {
+  display: grid; grid-template-columns: 20px 1fr; gap: 9px; align-items: start;
+  font-size: 13px; padding: 9px 11px; border-radius: 8px; border: 1px solid var(--line); background: var(--surface-2);
+}
+.check .mk { font-family: "IBM Plex Mono", monospace; font-weight: 600; line-height: 1.3; }
+.check.ok { border-color: color-mix(in oklab, var(--st-safe) 45%, var(--line)); }
+.check.ok .mk { color: var(--st-safe); }
+.check.no { border-color: color-mix(in oklab, var(--st-tough) 45%, var(--line)); }
+.check.no .mk { color: var(--st-tough); }
+.check b { color: var(--ink); font-weight: 600; }
+.check span { color: var(--ink-2); }
+
+/* vallista */
+.pick {
+  display: grid; grid-template-columns: 34px 1fr auto auto; gap: 12px; align-items: center;
+  background: var(--surface); border: 1px solid var(--line); border-radius: 9px; padding: 10px 12px;
+}
+.pick .rank {
+  font-family: "IBM Plex Mono", monospace; font-size: 15px; font-weight: 600; color: var(--accent);
+  text-align: right;
+}
+.pick-acts { display: flex; gap: 3px; }
+.pick-acts button {
+  width: 28px; height: 26px; border: 1px solid var(--line-strong); background: var(--surface-2);
+  border-radius: 6px; font-size: 12px; color: var(--ink-2); line-height: 1;
+}
+.pick-acts button:hover:not(:disabled) { border-color: var(--accent); color: var(--accent); }
+.pick-acts button:disabled { opacity: .35; cursor: default; }
+.tally { display: flex; gap: 8px; flex-wrap: wrap; }
+.tally .t {
+  --st: var(--st-neutral);
+  display: flex; flex-direction: column; gap: 1px; padding: 8px 12px; border-radius: 8px;
+  border: 1px solid var(--st); background: color-mix(in oklab, var(--st) 10%, transparent); min-width: 96px;
+}
+.tally .t.safe { --st: var(--st-safe); } .tally .t.likely { --st: var(--st-likely); }
+.tally .t.border { --st: var(--st-border); } .tally .t.tough { --st: var(--st-tough); }
+.tally .t .n { font-family: "IBM Plex Mono", monospace; font-size: 22px; font-weight: 600; line-height: 1.1; }
+.tally .t .l { font-size: 11.5px; color: var(--ink-2); }
+
+/* dela listan */
+.dela { display: flex; flex-direction: column; gap: 12px; }
+.dela-rad { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
+.dela-rad .primary {
+  background: var(--accent); color: var(--accent-ink); border: 0; border-radius: 8px;
+  padding: 9px 15px; font-size: 13.5px; font-weight: 500;
+}
+.dela-rad .primary:hover { filter: brightness(1.08); }
+.kryss { display: flex; align-items: center; gap: 8px; font-size: 13px; color: var(--ink-2); }
+.kryss input { accent-color: var(--accent); width: 15px; height: 15px; }
+.dela-msg { font-size: 12.5px; color: var(--ink-2); }
+.dela-msg.fel { color: var(--st-tough); }
+.dela-msg.ok { color: var(--st-safe); }
+.dela textarea {
+  font-family: "IBM Plex Mono", monospace; font-size: 11.5px; line-height: 1.4;
+  word-break: break-all; resize: vertical;
+}
+.dela hr { border: 0; border-top: 1px solid var(--line); margin: 4px 0; }
+
+/* skollänk */
+.school a {
+  color: inherit; text-decoration: none; display: inline-flex; align-items: baseline; gap: 4px;
+}
+.school a:hover { color: var(--accent); text-decoration: underline; text-underline-offset: 2px; }
+.school a .ext { font-size: 10px; color: var(--ink-3); }
+.school a:hover .ext { color: var(--accent); }
+.pill.oh { border-color: var(--accent); color: var(--accent); }
+
+/* öppet hus */
+.agenda { display: flex; flex-direction: column; gap: 6px; }
+.oh-row {
+  display: grid; grid-template-columns: 116px 1fr auto; gap: 14px; align-items: center;
+  border: 1px solid var(--line); border-radius: 9px; padding: 10px 12px; background: var(--surface);
+}
+.oh-row.massa { border-color: var(--accent); background: var(--accent-soft); }
+.oh-row.forbi { opacity: .5; }
+.oh-when { display: flex; flex-direction: column; gap: 1px; }
+.oh-when .d { font-family: "IBM Plex Mono", monospace; font-size: 13.5px; font-weight: 500; }
+.oh-when .rel { font-size: 11px; color: var(--ink-3); }
+.oh-row.massa .oh-when .rel { color: var(--accent); }
+.oh-what { min-width: 0; display: flex; flex-direction: column; gap: 1px; }
+.oh-what .n { font-weight: 600; font-size: 14px; }
+.oh-what .t { font-size: 12.5px; color: var(--ink-2); }
+.oh-acts { display: flex; gap: 6px; align-items: center; }
+.oh-acts a { font-size: 12px; white-space: nowrap; }
+.oh-acts button {
+  width: 26px; height: 24px; border: 1px solid var(--line-strong); background: var(--surface-2);
+  border-radius: 6px; font-size: 11px; color: var(--ink-2); line-height: 1;
+}
+.oh-acts button:hover { border-color: var(--st-tough); color: var(--st-tough); }
+@media (max-width: 640px) {
+  .oh-row { grid-template-columns: 1fr; gap: 6px; }
+  .oh-acts { justify-content: flex-start; }
+}
+.oh-form { display: grid; grid-template-columns: 1.4fr 130px 1fr auto; gap: 8px; align-items: end; }
+@media (max-width: 720px) { .oh-form { grid-template-columns: 1fr 1fr; } }
+.oh-form label { display: flex; flex-direction: column; gap: 4px; }
+.oh-form .primary {
+  background: var(--accent); color: var(--accent-ink); border: 0; border-radius: 8px;
+  padding: 9px 15px; font-size: 13.5px; font-weight: 500; height: 36px;
+}
+.oh-form .primary:hover { filter: brightness(1.08); }
+input[type="date"] { width: 100%; font: inherit; font-size: 13.5px; padding: 7px 9px; color: var(--ink);
+  background: var(--surface-2); border: 1px solid var(--line-strong); border-radius: 8px; }
+.oh-msg { font-size: 12.5px; color: var(--st-tough); min-height: 17px; }
+.hemsida { display: flex; flex-direction: column; gap: 3px; }
+.hemsida input {
+  font-size: 12.5px; padding: 6px 9px; background: transparent; border: 1px dashed var(--line);
+}
+.hemsida input:focus { background: var(--surface-2); border-style: solid; }
+
+/* trappan */
+figure.trappa { margin: 0; display: flex; flex-direction: column; gap: 8px; }
+figure.trappa svg { display: block; width: 100%; height: auto; overflow: visible; }
+.trappa-cap { font-size: 12.5px; color: var(--ink-2); max-width: 62ch; }
+
+/* granskning */
+.granska { display: flex; flex-direction: column; gap: 7px; }
+.gr {
+  --st: var(--st-neutral);
+  display: grid; grid-template-columns: 20px 1fr; gap: 10px; align-items: start;
+  font-size: 13px; padding: 10px 12px; border-radius: 8px;
+  border: 1px solid color-mix(in oklab, var(--st) 45%, var(--line));
+  background: color-mix(in oklab, var(--st) 8%, transparent);
+}
+.gr.ok { --st: var(--st-safe); } .gr.warn { --st: var(--st-border); } .gr.bad { --st: var(--st-tough); }
+.gr .mk { font-family: "IBM Plex Mono", monospace; font-weight: 600; color: var(--st); line-height: 1.3; }
+.gr b { color: var(--ink); font-weight: 600; }
+.gr span { color: var(--ink-2); }
+.gr .num { color: var(--ink); font-weight: 500; }
+
+/* förslag på säkra kort */
+.forslag { display: flex; flex-direction: column; gap: 6px; }
+.fkort {
+  display: grid; grid-template-columns: 1fr auto auto; gap: 12px; align-items: center;
+  border: 1px dashed var(--line-strong); border-radius: 8px; padding: 9px 11px; background: var(--surface-2);
+}
+.fkort .add {
+  background: var(--accent); color: var(--accent-ink); border: 0; border-radius: 7px;
+  padding: 6px 11px; font-size: 12.5px; font-weight: 500; white-space: nowrap;
+}
+.fkort .add:hover { filter: brightness(1.08); }
+
+/* anteckningar per val */
+.pick-note { grid-column: 1 / -1; display: flex; flex-direction: column; gap: 3px; }
+.pick-note textarea {
+  min-height: 34px; resize: vertical; font-size: 12.5px; padding: 6px 9px;
+  background: transparent; border: 1px dashed var(--line);
+}
+.pick-note textarea:focus { background: var(--surface-2); border-style: solid; }
+
+/* så prövas listan */
+.prov-lista { display: flex; flex-direction: column; gap: 4px; margin: 4px 0 14px; }
+.pl-row {
+  display: grid; grid-template-columns: 26px 1fr auto; gap: 11px; align-items: center;
+  padding: 8px 11px; border-radius: 8px; border: 1px solid var(--line); background: var(--surface-2); font-size: 13.5px;
+}
+.pl-row .n { font-family: "IBM Plex Mono", monospace; font-weight: 600; color: var(--ink-3); text-align: right; }
+.pl-row .what { color: var(--ink); }
+.pl-row .res { font-size: 12px; color: var(--ink-2); }
+.pl-row.hit { border-color: var(--st-safe); background: color-mix(in oklab, var(--st-safe) 10%, transparent); }
+.pl-row.hit .n, .pl-row.hit .res { color: var(--st-safe); font-weight: 600; }
+.pl-row.gone { border-style: dashed; }
+.pl-row.gone .what { color: var(--ink-3); text-decoration: line-through; }
+.pl-row.gone .res { color: var(--ink-3); }
+.pl-row.miss .res { color: var(--ink-3); }
+
+/* tidslinje */
+.tl { display: flex; flex-direction: column; gap: 0; }
+.tl-item { display: grid; grid-template-columns: 92px 20px 1fr; gap: 12px; }
+.tl-when {
+  font-family: "IBM Plex Mono", monospace; font-size: 12.5px; color: var(--ink-2);
+  text-align: right; padding-top: 11px; font-variant-numeric: tabular-nums;
+}
+.tl-mark { position: relative; display: flex; justify-content: center; }
+.tl-mark::before { content: ""; position: absolute; top: 0; bottom: 0; width: 1px; background: var(--line-strong); }
+.tl-item:first-child .tl-mark::before { top: 16px; }
+.tl-item:last-child .tl-mark::before { bottom: calc(100% - 16px); }
+.tl-mark i {
+  position: relative; width: 9px; height: 9px; border-radius: 50%; background: var(--surface);
+  border: 2px solid var(--line-strong); margin-top: 13px;
+}
+.tl-item.key .tl-mark i { background: var(--accent); border-color: var(--accent); width: 11px; height: 11px; margin-top: 12px; }
+.tl-body { padding: 8px 0 16px; }
+.tl-body h3 { font-family: "IBM Plex Sans", sans-serif; font-size: 14px; font-weight: 600; letter-spacing: 0; }
+.tl-item.key .tl-body h3 { font-size: 15px; }
+.tl-body p { margin: 2px 0 0; font-size: 13px; color: var(--ink-2); max-width: 60ch; }
+.note {
+  border-left: 3px solid var(--st-border); background: color-mix(in oklab, var(--st-border) 8%, transparent);
+  padding: 11px 14px; border-radius: 0 8px 8px 0; font-size: 13px; color: var(--ink-2);
+}
+.note b { color: var(--ink); }
+footer.foot {
+  border-top: 1px solid var(--line); padding: 18px 0 34px; font-size: 12.5px; color: var(--ink-3);
+}
+footer.foot p { margin: 0 0 5px; max-width: 78ch; }
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; animation: none !important; } }
+</style>
+
+<header class="top">
+  <div class="wrap">
+    <div class="top-in">
+      <div class="brand">
+        <h1>Gymnasiekollen</h1>
+        <p>Alla gymnasieutbildningar i Stockholms län, med antagningsgränser från slutantagningen och chansbedömning utifrån meritvärde.</p>
+      </div>
+      <div class="top-actions">
+        <span class="sync" id="sync"><i class="dot off"></i><b>Sparat i den här webbläsaren</b></span>
+        <button class="ghost" id="theme" type="button" aria-label="Byt mellan ljust och mörkt läge">Tema</button>
+      </div>
+    </div>
+    <nav class="tabs" role="tablist" aria-label="Vyer">
+      <button role="tab" id="tab-chans" aria-controls="p-chans" aria-selected="true">Chansen</button>
+      <button role="tab" id="tab-lista" aria-controls="p-lista" aria-selected="false">Vallistan<span class="count" id="pickCount">0</span></button>
+      <button role="tab" id="tab-oh" aria-controls="p-oh" aria-selected="false">Öppet hus<span class="count" id="ohCount">0</span></button>
+      <button role="tab" id="tab-strategi" aria-controls="p-strategi" aria-selected="false">Strategi</button>
+      <button role="tab" id="tab-merit" aria-controls="p-merit" aria-selected="false">Räkna meritvärde</button>
+      <button role="tab" id="tab-info" aria-controls="p-info" aria-selected="false">Datum &amp; regler</button>
+    </nav>
+  </div>
+</header>
+
+<main class="wrap">
+  <!-- ============ CHANSEN ============ -->
+  <div role="tabpanel" id="p-chans" aria-labelledby="tab-chans">
+    <section class="merit" aria-label="Meritvärde">
+      <div class="merit-in">
+        <span class="eyebrow">Meritvärde</span>
+        <div class="merit-row">
+          <input type="number" id="merit" min="0" max="340" step="2.5" value="240" aria-label="Meritvärde, 0 till 340">
+          <span class="of">av 340</span>
+        </div>
+        <input type="range" id="meritRange" min="80" max="340" step="2.5" value="240" aria-label="Justera meritvärde">
+        <div><span class="tag example" id="meritTag">Exempelvärde – ändra till ditt eget</span></div>
+      </div>
+      <figure class="dist">
+        <figcaption>
+          <span class="eyebrow">Antagningsgränser 2026 i urvalet</span>
+          <span id="distNote"></span>
+        </figcaption>
+        <div class="chart-hold">
+          <svg id="dist" viewBox="0 0 600 118" role="img" aria-labelledby="distTitle"><title id="distTitle">Fördelning av antagningsgränser jämfört med ditt meritvärde</title></svg>
+          <div class="tip" id="distTip"></div>
+        </div>
+      </figure>
+    </section>
+
+    <div class="layout">
+      <aside class="rail">
+        <fieldset class="fset">
+          <legend class="eyebrow">Sök</legend>
+          <input type="search" id="q" placeholder="Skola, program, inriktning…" aria-label="Sök på skola, program eller inriktning">
+        </fieldset>
+        <fieldset class="fset">
+          <legend class="eyebrow">Chans</legend>
+          <div class="seg" id="segChance" role="group" aria-label="Filtrera på chans">
+            <button data-v="reach" aria-pressed="true">Har chans</button>
+            <button data-v="near" aria-pressed="false">Nära</button>
+            <button data-v="all" aria-pressed="false">Alla</button>
+          </div>
+        </fieldset>
+        <fieldset class="fset">
+          <legend class="eyebrow">Programtyp</legend>
+          <div class="seg" id="segType" role="group" aria-label="Filtrera på programtyp">
+            <button data-v="all" aria-pressed="true">Alla</button>
+            <button data-v="hf" aria-pressed="false">Högsk.förb.</button>
+            <button data-v="yrke" aria-pressed="false">Yrke</button>
+          </div>
+        </fieldset>
+        <fieldset class="fset">
+          <legend class="eyebrow">Huvudman</legend>
+          <div class="seg" id="segOrg" role="group" aria-label="Filtrera på huvudman">
+            <button data-v="all" aria-pressed="true">Alla</button>
+            <button data-v="kommunal" aria-pressed="false">Kommunal</button>
+            <button data-v="fristående" aria-pressed="false">Fristående</button>
+          </div>
+        </fieldset>
+        <fieldset class="fset">
+          <legend class="eyebrow">Program <button class="clearall" id="clearProg" type="button">rensa</button></legend>
+          <div class="chips scroll" id="progChips" role="group" aria-label="Filtrera på program"></div>
+        </fieldset>
+        <fieldset class="fset">
+          <legend class="eyebrow">Kommun <button class="clearall" id="clearKom" type="button">rensa</button></legend>
+          <div class="chips scroll" id="komChips" role="group" aria-label="Filtrera på kommun"></div>
+        </fieldset>
+      </aside>
+
+      <div class="results">
+        <div class="results-head">
+          <h2 id="resTitle">Utbildningar</h2>
+          <span class="sub" id="resSub"></span>
+          <label class="sort">Gruppera
+            <select id="group">
+              <option value="none">Per utbildning</option>
+              <option value="school">Per skola</option>
+            </select>
+          </label>
+          <label class="sort">Sortera
+            <select id="sort">
+              <option value="grans-desc">Högsta gräns först</option>
+              <option value="grans-asc">Lägsta gräns först</option>
+              <option value="margin-desc">Störst marginal</option>
+              <option value="skola">Skola A–Ö</option>
+              <option value="program">Program A–Ö</option>
+            </select>
+          </label>
+        </div>
+        <div class="rows" id="rows"></div>
+        <button class="ghost more" id="more" type="button" hidden>Visa fler</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ VALLISTAN ============ -->
+  <div role="tabpanel" id="p-lista" aria-labelledby="tab-lista" hidden>
+    <div class="cols" style="margin-top:20px">
+      <div class="card" style="grid-column: 1 / -1">
+        <span class="eyebrow">Din vallista</span>
+        <h2 style="font-size:19px;margin:4px 0 8px">Rangordna upp till 30 val</h2>
+        <p class="prose" style="margin:0 0 14px">Du blir antagen till det <b>högst rangordnade</b> val du kommer in på – aldrig till ett lägre val om ett högre går vägen. Sätt därför dröm&shy;valen först och ha minst ett par val med god marginal längst ner.</p>
+        <div class="tally" id="tally"></div>
+      </div>
+
+      <div class="card" id="granskaCard" style="grid-column: 1 / -1" hidden>
+        <span class="eyebrow">Granskning</span>
+        <h2 style="font-size:19px;margin:4px 0 12px">Håller trappan?</h2>
+        <div class="granska" id="granska"></div>
+        <div id="forslagHold" hidden style="margin-top:16px">
+          <span class="eyebrow">Säkra kort du kan lägga sist</span>
+          <div class="forslag" id="forslag" style="margin-top:8px"></div>
+        </div>
+      </div>
+
+      <div class="card" id="trappaCard" style="grid-column: 1 / -1" hidden>
+        <span class="eyebrow">Din trappa</span>
+        <h2 style="font-size:19px;margin:4px 0 4px">Antagningsgräns per val</h2>
+        <figure class="trappa">
+          <figcaption class="trappa-cap">Varje stapel är ett val i din ordning, och längden är antagningsgränsen 2026. En bra lista trappar nedåt: höga gränser högst upp, ett säkert kort sist. Den blå linjen är ditt meritvärde.</figcaption>
+          <div class="chart-hold">
+            <svg id="trappa" role="img" aria-labelledby="trappaTitle"><title id="trappaTitle">Antagningsgräns per val i vallistan</title></svg>
+            <div class="tip" id="trappaTip"></div>
+          </div>
+        </figure>
+      </div>
+
+      <div style="grid-column: 1 / -1; display:flex; flex-direction:column; gap:6px" id="picks"></div>
+
+      <div class="card" style="grid-column: 1 / -1">
+        <span class="eyebrow">Dela och spara</span>
+        <h2 style="font-size:19px;margin:4px 0 8px">Skicka listan vidare</h2>
+        <p class="prose" style="margin:0 0 4px">Appen sparar i den här webbläsaren, så listan följer inte med av sig själv till en annan telefon eller dator. Kopiera i stället en kod och skicka den — den som får den klistrar in den här nedanför.</p>
+        <p class="prose" style="margin:0 0 14px"><b>Koden är också din backup.</b> Rensad webbläsardata eller ny telefon nollställer allt som är sparat lokalt. Spara koden i en anteckning eller skicka den till dig själv, så finns allt kvar.</p>
+        <div class="dela">
+          <label class="kryss"><input type="checkbox" id="delaBetyg"> Ta med de enskilda betygen, inte bara meritvärdet</label>
+          <div class="dela-rad">
+            <button type="button" class="primary" id="kopieraKod">Kopiera kod</button>
+            <span class="dela-msg" id="delaMsg"></span>
+          </div>
+          <textarea id="kodUt" rows="3" readonly hidden aria-label="Kod att kopiera"></textarea>
+          <hr>
+          <label style="display:flex;flex-direction:column;gap:5px">
+            <span class="eyebrow">Öppna en kod du fått</span>
+            <textarea id="kodIn" rows="2" placeholder="Klistra in koden här – den börjar med GK1"></textarea>
+          </label>
+          <div class="dela-rad">
+            <button type="button" class="ghost" id="oppnaKod">Öppna koden</button>
+            <span class="dela-msg" id="kodInMsg"></span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ ÖPPET HUS ============ -->
+  <div role="tabpanel" id="p-oh" aria-labelledby="tab-oh" hidden>
+    <div class="cols" style="margin-top:20px">
+      <div class="card" style="grid-column: 1 / -1">
+        <span class="eyebrow">Närmast i tiden</span>
+        <h2 style="font-size:19px;margin:4px 0 8px">Öppet hus och mässor</h2>
+        <p class="prose" style="margin:0 0 14px">Skolorna lägger ut sina öppna hus var och en för sig, oftast i oktober och november, så det finns ingen central lista att hämta. Skriv in dem här i stället – de syns då som märke på skolans rader under Chansen, och delas mellan era enheter.</p>
+        <div class="agenda" id="agenda"></div>
+      </div>
+
+      <div class="card" style="grid-column: 1 / -1">
+        <span class="eyebrow">Lägg till</span>
+        <h3 style="font-family:'IBM Plex Sans';font-size:15px;font-weight:600;letter-spacing:0;margin:4px 0 12px">Nytt öppet hus</h3>
+        <div class="oh-form">
+          <label><span class="eyebrow">Skola</span>
+            <input type="search" id="ohSkola" list="skolLista" placeholder="Börja skriv skolans namn…" autocomplete="off">
+            <datalist id="skolLista"></datalist>
+          </label>
+          <label><span class="eyebrow">Datum</span><input type="date" id="ohDatum"></label>
+          <label><span class="eyebrow">Notis (valfritt)</span><input type="search" id="ohNotis" placeholder="kl 17–20, anmälan krävs…"></label>
+          <button type="button" class="primary" id="ohAdd">Lägg till</button>
+        </div>
+        <div class="oh-msg" id="ohMsg"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ STRATEGI ============ -->
+  <div role="tabpanel" id="p-strategi" aria-labelledby="tab-strategi" hidden>
+    <div class="cols" style="margin-top:20px">
+      <div class="card">
+        <span class="eyebrow">Mekaniken</span>
+        <h2 style="font-size:19px;margin:4px 0 8px">Så prövas din lista</h2>
+        <p class="prose" style="margin:0 0 10px">Ansökan prövas <b>uppifrån och ned</b>. Antagningen testar val 1 först: räcker meritvärdet får du platsen och <b>alla lägre val stryks i samma sekund</b>. Räcker det inte prövas val 2, och så vidare.</p>
+        <div class="prov-lista">
+          <div class="pl-row miss"><span class="n">1</span><span class="what">Drömvalet – gränsen låg 12 poäng över</span><span class="res">räckte inte</span></div>
+          <div class="pl-row miss"><span class="n">2</span><span class="what">Samma program, annan skola – 3 poäng över</span><span class="res">räckte inte</span></div>
+          <div class="pl-row hit"><span class="n">3</span><span class="what">Skola med gräns strax under ditt värde</span><span class="res">antagen ✓</span></div>
+          <div class="pl-row gone"><span class="n">4</span><span class="what">Nästa skola i trappan</span><span class="res">stryks</span></div>
+          <div class="pl-row gone"><span class="n">5</span><span class="what">Säkert kort</span><span class="res">stryks</span></div>
+        </div>
+        <div class="note"><b>Och det här är poängen:</b> blir du antagen till val 3 står du <b>kvar som reserv på val 1 och 2</b> under sommarens reservantagningar. Svarar du inte alls tolkas det som att du vill kvarstå som reserv uppåt. Därför kan ett högt drömval aldrig kosta dig något – det kan bara ge dig något extra.</div>
+      </div>
+      <div class="card prose">
+        <h3>Fyra regler som faktiskt spelar roll</h3>
+        <p><b>1. Drömvalet högst upp.</b> Du förlorar aldrig på att sätta det du helst vill gå på som nummer 1, även om poängen ligger precis på gränsen. Gränsen är dessutom förra årets resultat – den kan lika väl gå ner som upp.</p>
+        <p><b>2. Bygg en trappa.</b> Lägg valen i sjunkande antagningsgräns under förstahandsvalet. Fem val med nästan samma gräns är i praktiken ett enda val – går det ena inte vägen gör inget av de andra det heller.</p>
+        <p><b>3. Ha ett säkert kort sist.</b> Ett program där poängen räcker med god marginal, längst ner. Det är skillnaden mellan att ha en plats i juli och att stå i reservkö till allt.</p>
+        <p><b>4. Rangordna ärligt.</b> Ordningen är din enda preferenssignal. Sätt aldrig en skola högre än en du hellre vill gå på – kommer du in på den högre stryks den lägre automatiskt, och den kan du inte få tillbaka.</p>
+        <h3>Vanliga misstag</h3>
+        <ul>
+          <li><b>Säkra kortet för högt.</b> Det vanligaste och dyraste felet. Ett säkert val på plats 2 blockerar allt under sig – du kommer in där och drömskolorna stryks. Granskningen i Vallistan letar efter just det.</li>
+          <li><b>Taktikröstning nedåt.</b> Att hoppa över drömvalet "för att det ändå inte går" ger bara en sämre lista. Kostnaden för ett högt önskeval är noll.</li>
+          <li><b>För få val.</b> Du får göra 30. Varje extra val längst ner är en gratis försäkring.</li>
+          <li><b>Glömma färdighetsprovet.</b> På estetiska program, spetsutbildningar och särskilda varianter avgör provet – uteblivet prov betyder ingen plats, hur högt meritvärdet än är.</li>
+          <li><b>Missa svarsdagen.</b> Ett obesvarat besked i juli kan kosta platsen.</li>
+        </ul>
+        <h3>Använd omvalet</h3>
+        <p>I april kommer den preliminära antagningen och med den omvalsperioden fram till maj. Då syns hur trycket ligger i år, och du kan lägga till, ta bort och byta ordning <b>utan</b> att hamna efter dem som sökte i februari. Februarilistan behöver alltså inte vara perfekt – men den behöver ha ett säkert kort.</p>
+        <h3>Vad siffrorna inte visar</h3>
+        <p>Antagningsgränsen säger ingenting om hur skolan är. Elevenkäterna för årskurs 3 finns per skola hos <a href="https://gymnasieantagningen.storsthlm.se/elevenkater/" target="_blank" rel="noopener">Gymnasieantagningen</a>, och restid räknas bäst i SL-appen från er adress. Öppet hus under hösten avgör ofta mer än poängen – skriv intrycken direkt på valen i Vallistan.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ MERITVÄRDE ============ -->
+  <div role="tabpanel" id="p-merit" aria-labelledby="tab-merit" hidden>
+    <div class="cols" style="margin-top:20px">
+      <div class="card">
+        <span class="eyebrow">Betyg från årskurs 9</span>
+        <h2 style="font-size:19px;margin:4px 0 6px">Slå in betygen</h2>
+        <p class="prose" style="margin:0 0 14px">Meritvärdet är summan av de <b>16 bästa betygen</b>, plus betyget i moderna språk som språkval som ett 17:e ämne. Lämna ämnen du inte har betyg i som <code>–</code>.</p>
+        <div class="grades" id="grades"></div>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:18px">
+        <div class="card">
+          <span class="eyebrow">Ditt meritvärde</span>
+          <div class="merit-out">
+            <div class="big num" id="calcMerit">–</div>
+            <div style="font-size:13px;color:var(--ink-2)" id="calcNote">Slå in betyg för att räkna ut meritvärdet.</div>
+          </div>
+          <button class="ghost" id="useCalc" type="button" style="margin-top:6px">Använd i chansanalysen</button>
+        </div>
+        <div class="card">
+          <span class="eyebrow">Behörighet</span>
+          <h3 style="font-family:'IBM Plex Sans';font-size:15px;font-weight:600;letter-spacing:0;margin:4px 0 2px">Vad betygen räcker till</h3>
+          <div class="checks" id="behorighet"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ DATUM & REGLER ============ -->
+  <div role="tabpanel" id="p-info" aria-labelledby="tab-info" hidden>
+    <div class="cols" style="margin-top:20px">
+      <div class="card">
+        <span class="eyebrow">Tidplan</span>
+        <h2 style="font-size:19px;margin:4px 0 10px">Gymnasievalet steg för steg</h2>
+        <div class="note" style="margin-bottom:16px"><b>Datumen nedan är 2026-omgångens.</b> Exakta datum för antagningen 2027 publiceras av Gymnasieantagningen under hösten 2026 – mönstret är detsamma varje år, men stäm av dagarna på <a href="https://gymnasieantagningen.storsthlm.se/viktiga-datum" target="_blank" rel="noopener">viktiga datum</a> när de kommer.</div>
+        <div class="tl" id="timeline"></div>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:18px">
+        <div class="card prose">
+          <h3>Så räknas meritvärdet</h3>
+          <p>Betygen växlas till poäng: <b>A 20 · B 17,5 · C 15 · D 12,5 · E 10 · F 0</b>. Meritvärdet är summan av de 16 bästa ämnesbetygen. Har du läst <b>moderna språk som språkval</b> räknas det som ett 17:e ämne ovanpå – därför är maxvärdet <b>340</b> poäng, inte 320.</p>
+          <p>På utbildningar med <b>färdighetsprov</b> (många estetiska program, spetsutbildningar och särskilda varianter) läggs provpoäng till. Där kan antagningsgränsen ligga långt över 340, och den kan inte jämföras rakt med ett meritvärde.</p>
+          <h3>Behörighet</h3>
+          <ul>
+            <li><b>Yrkesprogram:</b> godkänt i svenska/svenska som andraspråk, engelska och matematik + <b>5 andra ämnen</b> (8 totalt).</li>
+            <li><b>Högskoleförberedande:</b> de tre basämnena + <b>9 andra ämnen</b> (12 totalt).</li>
+            <li><b>Ekonomi, humanistiska, samhällsvetenskap:</b> 4 av de 9 måste vara geografi, historia, samhällskunskap och religionskunskap.</li>
+            <li><b>Natur och teknik:</b> 3 av de 9 måste vara biologi, fysik och kemi.</li>
+            <li><b>Estetiska programmet:</b> de 9 övriga ämnena är fria.</li>
+          </ul>
+          <h3>Fritt sök</h3>
+          <p>Inom samverkansområdet söker alla nationella program på lika villkor oavsett vilken kommun man bor i. Fristående skolor tar emot sökande från hela landet. Utanför området har hemkommunens sökande företräde, om utbildningen inte saknas hemma.</p>
+          <p>Området omfattar formellt också <b>Håbo</b> i Uppsala län och <b>Gnesta</b> i Södermanlands län. De ligger utanför Stockholms län och är därför inte med i listorna här – men du får söka dit på samma villkor om du vill. Vill du bara se en enskild kommun, filtrera på <b>Kommun</b> under Chansen.</p>
+          <h3>Val, antagning och reserver</h3>
+          <ul>
+            <li>Du får göra <b>max 30 val</b> och rangordnar dem själv. Fler val ökar chansen att komma in på något.</li>
+            <li><b>Preliminär antagning</b> i april är en temperaturmätare på höstterminsbetygen – inte ett besked.</li>
+            <li><b>Omvalsperioden</b> i april–maj gör att du kan lägga till, ta bort och byta ordning utan att hamna sist i kön.</li>
+            <li><b>Slutantagningen</b> bygger på slutbetygen från våren. Svara i tid, annars förlorar du platsen.</li>
+            <li>Två <b>reservantagningar</b> i månadsskiftet juli–augusti, därefter sköter skolorna sina egna reservlistor.</li>
+          </ul>
+          <h3>Så läser du siffrorna här</h3>
+          <p><b>Gräns</b> är meritvärdet hos den sist antagna eleven i slutantagningen – alltså det lägsta som räckte det året. <b>Gräns 0</b> betyder att alla behöriga sökande kom in och att det fanns platser kvar. <b>Median</b> är mittenvärdet bland de antagna: ligger du där är du i mitten av klassen, inte på marginalen.</p>
+          <p>Gränsen är ett resultat, inte ett krav. Den flyttar sig varje år med hur många som söker – därför visas tre år, och därför är stora hopp mellan åren en varning för att siffran är instabil.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <footer class="foot">
+    <p><b>Källa:</b> <a href="https://gymnasieantagningen.storsthlm.se/antagningsgranser-elevnojdhet/ladda-ned-antagningsstatistik/" target="_blank" rel="noopener">Gymnasieantagningen Storsthlm, slutantagningsresultat</a> för <span id="metaYears"></span>. <span id="metaCounts"></span> Hämtat <span id="metaDate"></span>.</p>
+    <p>Chansbedömningen är en uppskattning byggd på historiska antagningsgränser. Den är inte ett besked och inte en garanti – gränserna ändras varje år. Kontrollera alltid utbudet och villkoren hos skolan och i Indra.</p>
+  </footer>
+</main>
+
+<script>
+const D = __DATASET__;
+
+/* ---------------------------------------------------------------- data ---- */
+const norm = (s) => (s || '').toLowerCase()
+  .replace(/[åä]/g, 'a').replace(/ö/g, 'o').replace(/é/g, 'e').replace(/\s+/g, ' ').trim();
+
+const TYPE_LABEL = { hf: 'Högskoleförberedande', yrke: 'Yrkesprogram', riks: 'Riksrekryterande yrkesutbildning', im: 'Introduktionsprogram', pabyggnad: 'Påbyggnad' };
+
+const EDU = D.utbildningar.map((r) => {
+  const skola = D.skolor[r.s];
+  const prog = D.program[r.p] || { name: r.p, type: 'im', behorighet: 'im' };
+  const gransar = r.g;
+  const g26 = gransar[2];
+  const positive = gransar.filter((v) => v != null && v > 0);
+  const ref = g26 != null && g26 > 0 ? g26 : null;
+  const hogsta = positive.length ? Math.max(...positive) : null;
+  const lagsta = positive.length ? Math.min(...positive) : null;
+  const text = `${skola.namn} ${skola.kommun} ${prog.name} ${r.p} ${r.inr || ''} ${r.kod}`;
+  return {
+    key: `${norm(skola.namn)}|${r.kod}`,
+    skola, prog, kod: r.p, kodFull: r.kod, inr: r.inr,
+    gransar, g26, ref, hogsta, lagsta,
+    median: r.med, platser: r.pl, antagna: r.an, reserver: r.res, lediga: r.led,
+    oppet: g26 === 0,
+    prov: (ref ?? hogsta ?? 0) > 340,
+    provTroligt: r.p === 'ES' || /spetsutbildning|särskild variant|riksrekrytering/i.test(r.inr || ''),
+    svanger: hogsta != null && lagsta != null && hogsta - lagsta >= 25,
+    sok: norm(text),
+  };
+});
+const BY_KEY = new Map(EDU.map((e) => [e.key, e]));
+
+const SKOLA_PER_NYCKEL = new Map(D.skolor.map((sk) => [norm(sk.namn), sk]));
+const SKOLNYCKLAR = new Set(SKOLA_PER_NYCKEL.keys());
+const skolnyckel = (sk) => norm(sk.namn);
+
+// Gymnasiemässan 2026 på Stockholmsmässan i Älvsjö.
+const MASSAN = { namn: 'Gymnasiemässan', fran: '2026-11-17', till: '2026-11-19',
+  plats: 'Stockholmsmässan, Älvsjö', url: 'https://gymnasiemassan.nu/' };
+
+const dagStr = (d = new Date()) =>
+  `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
+const IDAG = dagStr();
+const tillDate = (iso) => { const [y, m, d] = iso.split('-').map(Number); return new Date(y, m - 1, d); };
+const dagarTill = (iso) => Math.round((tillDate(iso) - tillDate(IDAG)) / 86400000);
+const visaDatum = (iso) => tillDate(iso).toLocaleDateString('sv-SE', { weekday: 'short', day: 'numeric', month: 'short' });
+function relativt(iso) {
+  const n = dagarTill(iso);
+  if (n === 0) return 'idag';
+  if (n === 1) return 'i morgon';
+  if (n < 0) return `${-n} dagar sedan`;
+  if (n < 7) return `om ${n} dagar`;
+  if (n < 14) return 'om en vecka';
+  if (n < 61) return `om ${Math.round(n / 7)} veckor`;
+  return `om ${Math.round(n / 30)} månader`;
+}
+
+// Länk till skolan: sparad hemsida om det finns, annars en websökning.
+const sokUrl = (q) => `https://www.google.com/search?q=${encodeURIComponent(q)}`;
+function stadaUrl(v) {
+  const t = String(v || '').trim();
+  if (!t) return '';
+  if (/^https?:\/\//i.test(t)) return t;
+  if (/^[\w.-]+\.[a-z]{2,}(\/|$)/i.test(t)) return `https://${t}`;
+  return '';
+}
+const skolUrl = (sk) => state.hemsidor[skolnyckel(sk)] || sokUrl(`${sk.namn} gymnasium ${sk.kommun}`);
+const skolLank = (sk) => `<a href="${esc(skolUrl(sk))}" target="_blank" rel="noopener noreferrer"`
+  + ` title="${state.hemsidor[skolnyckel(sk)] ? 'Skolans hemsida' : 'Sök upp skolan på webben'}">`
+  + `${esc(sk.namn)}<span class="ext" aria-hidden="true">↗</span></a>`;
+
+/* ------------------------------------------------------------- chansen ---- */
+const CHANCE = {
+  safe:   { label: 'God marginal', ico: '++', rank: 0 },
+  likely: { label: 'Trolig',       ico: '+',  rank: 1 },
+  border: { label: 'På gränsen',   ico: '~',  rank: 2 },
+  tough:  { label: 'Tufft',        ico: '−',  rank: 3 },
+  far:    { label: 'Långt ifrån',  ico: '−',  rank: 4 },
+  open:   { label: 'Platser kvar', ico: '○',  rank: 0 },
+  prov:   { label: 'Färdighetsprov', ico: '◇', rank: 5 },
+  okand:  { label: 'Ingen gräns',  ico: '?',  rank: 5 },
+};
+const CHANCE_CLASS = { safe: 'safe', likely: 'likely', border: 'border', tough: 'tough', far: 'tough', open: 'safe', prov: '', okand: '' };
+
+function bedom(e, merit) {
+  if (e.prov) return { k: 'prov', d: null };
+  if (e.oppet) return { k: 'open', d: null };
+  if (e.ref == null) return { k: 'okand', d: null };
+  const d = merit - e.ref;
+  if (d >= 20) return { k: 'safe', d };
+  if (d >= 5) return { k: 'likely', d };
+  if (d >= -5) return { k: 'border', d };
+  if (d >= -30) return { k: 'tough', d };
+  return { k: 'far', d };
+}
+const SAKER = (k) => k === 'safe' || k === 'open';
+const RISK = (k) => k === 'border' || k === 'tough' || k === 'far';
+const REACHABLE = new Set(['safe', 'likely', 'open']);
+const NEAR = new Set(['safe', 'likely', 'open', 'border']);
+
+/* --------------------------------------------------------------- state ---- */
+const SUBJECTS = [
+  { k: 'sv', n: 'Svenska / svenska som andraspråk', tag: 'bas' },
+  { k: 'en', n: 'Engelska', tag: 'bas' },
+  { k: 'ma', n: 'Matematik', tag: 'bas' },
+  { k: 'bi', n: 'Biologi', tag: 'no' },
+  { k: 'fy', n: 'Fysik', tag: 'no' },
+  { k: 'ke', n: 'Kemi', tag: 'no' },
+  { k: 'te', n: 'Teknik' },
+  { k: 'ge', n: 'Geografi', tag: 'so' },
+  { k: 'hi', n: 'Historia', tag: 'so' },
+  { k: 're', n: 'Religionskunskap', tag: 'so' },
+  { k: 'sh', n: 'Samhällskunskap', tag: 'so' },
+  { k: 'bl', n: 'Bild' },
+  { k: 'mu', n: 'Musik' },
+  { k: 'sl', n: 'Slöjd' },
+  { k: 'id', n: 'Idrott och hälsa' },
+  { k: 'hk', n: 'Hem- och konsumentkunskap' },
+];
+const LANG = { k: 'msp', n: 'Moderna språk', hint: 'som språkval – räknas som 17:e ämne' };
+const POINTS = { A: 20, B: 17.5, C: 15, D: 12.5, E: 10, F: 0 };
+const GRADES = ['A', 'B', 'C', 'D', 'E', 'F'];
+
+const state = {
+  merit: 240,
+  meritSatt: false,
+  betyg: {},
+  lista: [],
+  anteckningar: {},
+  hemsidor: {},
+  oppetHus: [],
+  q: '',
+  chance: 'reach',
+  type: 'all',
+  org: 'all',
+  prog: new Set(),
+  kom: new Set(),
+  sort: 'grans-desc',
+  group: 'none',
+  limit: 60,
+};
+
+/* ------------------------------------------------------------ lagring ---- */
+const LS = 'gymnasiekollen.v1';
+let db = null;
+// Lamport-räknare: skyddar mot att vår egen skrivning ekar tillbaka och mot att
+// två enheter skriver över varandra. Tåligare än tidsstämplar, som kan gå isär.
+let rev = 0;
+
+function snapshot() {
+  return {
+    merit: state.merit, meritSatt: state.meritSatt, betyg: state.betyg,
+    lista: state.lista, anteckningar: state.anteckningar,
+    hemsidor: state.hemsidor, oppetHus: state.oppetHus,
+  };
+}
+function apply(s) {
+  if (!s) return;
+  if (typeof s.merit === 'number') state.merit = s.merit;
+  state.meritSatt = !!s.meritSatt;
+  state.betyg = s.betyg && typeof s.betyg === 'object' ? s.betyg : {};
+  state.lista = Array.isArray(s.lista) ? s.lista.filter((k) => BY_KEY.has(k)) : [];
+  state.anteckningar = s.anteckningar && typeof s.anteckningar === 'object' ? s.anteckningar : {};
+  state.hemsidor = s.hemsidor && typeof s.hemsidor === 'object' ? s.hemsidor : {};
+  state.oppetHus = Array.isArray(s.oppetHus)
+    ? s.oppetHus.filter((o) => o && SKOLNYCKLAR.has(o.s) && /^\d{4}-\d{2}-\d{2}$/.test(o.d))
+    : [];
+}
+function save() {
+  rev += 1;
+  const s = { ...snapshot(), rev };
+  try { localStorage.setItem(LS, JSON.stringify(s)); } catch (err) { /* privat läge – strunt samma */ }
+  if (db) db.doc('state/app').set(s).catch(() => {});
+}
+try {
+  const sparat = JSON.parse(localStorage.getItem(LS));
+  apply(sparat);
+  rev = Number(sparat && sparat.rev) || 0;
+} catch (err) { /* inget sparat */ }
+
+async function connect() {
+  const c = window.claude;
+  if (!c || typeof c.use !== 'function') return;
+  let ns = null;
+  try { ns = await c.use('db'); } catch (err) { ns = null; }
+  if (!ns) return;
+  db = ns;
+  const el = document.getElementById('sync');
+  el.innerHTML = '<i class="dot"></i><b>Delas mellan era enheter</b>';
+  // DocumentSnapshot: exists är en flagga, data() är en metod.
+  db.doc('state/app').onSnapshot((snap) => {
+    if (!snap || !snap.exists) return;
+    const s = snap.data();
+    const fjarrRev = Number(s && s.rev) || 0;
+    if (!s || fjarrRev <= rev) return;
+    rev = fjarrRev;
+    apply(s);
+    try { localStorage.setItem(LS, JSON.stringify(s)); } catch (err) { /* strunt samma */ }
+    syncMeritInputs();
+    renderAll();
+  }, () => {});
+}
+
+/* ----------------------------------------------------------- meritvärde --- */
+function raknaMerit() {
+  const vals = SUBJECTS.map((s) => state.betyg[s.k]).filter((g) => g && g in POINTS).map((g) => POINTS[g]);
+  const bast = vals.sort((a, b) => b - a).slice(0, 16);
+  const lang = state.betyg[LANG.k] && state.betyg[LANG.k] in POINTS ? POINTS[state.betyg[LANG.k]] : null;
+  const antal = SUBJECTS.filter((s) => state.betyg[s.k]).length;
+  return { summa: bast.reduce((a, b) => a + b, 0) + (lang ?? 0), antal, lang, harBetyg: antal > 0 };
+}
+function behorighet() {
+  const godkant = (k) => { const g = state.betyg[k]; return !!g && g !== 'F'; };
+  const bas = ['sv', 'en', 'ma'].every(godkant);
+  const ovriga = SUBJECTS.filter((s) => s.tag !== 'bas' && godkant(s.k)).length + (godkant(LANG.k) ? 1 : 0);
+  const so = ['ge', 'hi', 'sh', 're'].every(godkant);
+  const no = ['bi', 'fy', 'ke'].every(godkant);
+  return {
+    bas, ovriga, so, no,
+    yrke: bas && ovriga >= 5,
+    hf: bas && ovriga >= 9,
+    'hf-so': bas && ovriga >= 9 && so,
+    'hf-no': bas && ovriga >= 9 && no,
+    im: true, pabyggnad: null,
+  };
+}
+
+/* nästa kommande öppet hus per skola, för märket i listorna */
+let ohIndex = new Map();
+function byggOhIndex() {
+  ohIndex = new Map();
+  for (const o of [...state.oppetHus].sort((a, b) => a.d.localeCompare(b.d))) {
+    if (o.d < IDAG || ohIndex.has(o.s)) continue;
+    ohIndex.set(o.s, o);
+  }
+}
+
+/* -------------------------------------------------------------- filter --- */
+function filtered(medChans = true) {
+  const q = norm(state.q);
+  return EDU.filter((e) => {
+    if (state.type === 'hf' && e.prog.type !== 'hf') return false;
+    if (state.type === 'yrke' && !(e.prog.type === 'yrke' || e.prog.type === 'riks')) return false;
+    if (state.type === 'all' && e.prog.type === 'im' && !state.prog.has('IM')) return false;
+    if (state.org !== 'all' && e.skola.org !== state.org) return false;
+    if (state.prog.size && !state.prog.has(e.kod)) return false;
+    if (state.kom.size && !state.kom.has(e.skola.kommun)) return false;
+    if (q && !e.sok.includes(q)) return false;
+    if (medChans && state.chance !== 'all') {
+      const k = bedom(e, state.merit).k;
+      if (state.chance === 'reach' && !REACHABLE.has(k)) return false;
+      if (state.chance === 'near' && !NEAR.has(k)) return false;
+    }
+    return true;
+  });
+}
+function sortera(list) {
+  const cmp = {
+    'grans-desc': (a, b) => (b.ref ?? -1) - (a.ref ?? -1),
+    'grans-asc': (a, b) => (a.ref ?? 1e6) - (b.ref ?? 1e6),
+    'margin-desc': (a, b) => (bedom(b, state.merit).d ?? -1e6) - (bedom(a, state.merit).d ?? -1e6),
+    skola: (a, b) => a.skola.namn.localeCompare(b.skola.namn, 'sv') || (b.ref ?? -1) - (a.ref ?? -1),
+    program: (a, b) => a.prog.name.localeCompare(b.prog.name, 'sv') || (b.ref ?? -1) - (a.ref ?? -1),
+  }[state.sort];
+  return list.slice().sort(cmp);
+}
+
+/* ------------------------------------------------------------- rendering -- */
+const el = (id) => document.getElementById(id);
+const esc = (s) => String(s == null ? '' : s).replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+const pt = (v) => (v == null ? '–' : String(v).replace('.', ',').replace(/,0$/, ''));
+
+const STAR = '<svg viewBox="0 0 24 24" aria-hidden="true"><path fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round" d="M12 3.6l2.6 5.5 6 .8-4.4 4.2 1.1 6-5.3-2.9-5.3 2.9 1.1-6L3.4 9.9l6-.8z"/></svg>';
+const STAR_ON = '<svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 3.6l2.6 5.5 6 .8-4.4 4.2 1.1 6-5.3-2.9-5.3 2.9 1.1-6L3.4 9.9l6-.8z"/></svg>';
+
+const PROVBARA = new Set(['yrke', 'hf', 'hf-so', 'hf-no']);
+let behorCache = null;
+
+function radHtml(e, valdIdx) {
+  const b = bedom(e, state.merit);
+  const c = CHANCE[b.k];
+  const vald = valdIdx >= 0;
+  const inr = e.inr ? ` <span style="color:var(--ink-3)">·</span> ${esc(e.inr)}` : '';
+  const saknarBehorighet = behorCache && PROVBARA.has(e.prog.behorighet) && behorCache[e.prog.behorighet] === false;
+  const oh = ohIndex.get(skolnyckel(e.skola));
+  return `<article class="row${vald ? ' is-pick' : ''}" data-key="${esc(e.key)}">
+    <button class="star r-star" type="button" aria-pressed="${vald}" aria-label="${vald ? 'Ta bort från vallistan' : 'Lägg till i vallistan'}" data-star="${esc(e.key)}">${vald ? STAR_ON : STAR}</button>
+    <div class="r-main">
+      <span class="school">${skolLank(e.skola)}</span>
+      <span class="prog">${esc(e.prog.name)} <span class="num" style="color:var(--ink-3)">${esc(e.kod)}</span>${inr}</span>
+      <span class="meta">
+        <span>${esc(e.skola.kommun)}</span><span>·</span><span>${esc(e.skola.org)}</span>
+        ${oh ? `<span class="pill oh" title="${esc(oh.t || 'Öppet hus')}">öppet hus ${esc(visaDatum(oh.d))}</span>` : ''}
+        ${e.svanger ? '<span class="pill" title="Gränsen har rört sig mer än 25 poäng mellan åren">gränsen svänger</span>' : ''}
+        ${e.prov ? '<span class="pill" title="Antagningsgränsen innehåller provpoäng och kan inte jämföras med ett meritvärde">provpoäng ingår</span>'
+          : e.provTroligt ? '<span class="pill" title="Estetiska program, spetsutbildningar och särskilda varianter har ofta färdighetsprov">kan ha färdighetsprov</span>' : ''}
+        ${saknarBehorighet ? '<span class="pill" style="border-color:var(--st-tough);color:var(--st-tough)">behörighet saknas</span>' : ''}
+      </span>
+    </div>
+    <div class="r-stats">
+      <div><span class="k">Gräns 2026</span><span class="v">${e.oppet ? '<span style="color:var(--ink-3)">alla in</span>' : pt(e.g26)}</span></div>
+      <div><span class="k">2025 / 2024</span><span class="v dim">${pt(e.gransar[1])} / ${pt(e.gransar[0])}</span></div>
+      <div><span class="k">Median</span><span class="v dim">${pt(e.median)}</span></div>
+      <div><span class="k">Antagna</span><span class="v dim">${pt(e.antagna)}</span></div>
+    </div>
+    <div class="r-chance">
+      <span class="badge ${CHANCE_CLASS[b.k]}"><span class="ico">${c.ico}</span>${c.label}</span>
+      ${b.d != null ? `<span class="margin">${b.d >= 0 ? '+' : '−'}${pt(Math.abs(b.d))} mot gränsen</span>` : ''}
+    </div>
+  </article>`;
+}
+
+function renderRows() {
+  behorCache = Object.keys(state.betyg).length ? behorighet() : null;
+  byggOhIndex();
+  const list = sortera(filtered());
+  const heltUrval = state.chance === 'all' ? list : filtered(false);
+  const vald = new Map(state.lista.map((k, i) => [k, i]));
+  el('resSub').textContent = `${list.length} av ${EDU.length} · ${new Set(list.map((e) => e.skola.namn)).size} skolor`;
+  el('resTitle').textContent = state.chance === 'reach' ? 'Här har du chans' : state.chance === 'near' ? 'Chans eller nära' : 'Alla utbildningar';
+
+  if (!list.length) {
+    el('rows').innerHTML = `<div class="empty">Inget matchar filtren.<br>Prova <b>Alla</b> under Chans, eller rensa program- och kommunvalen.</div>`;
+    el('more').hidden = true;
+    renderDist(heltUrval);
+    return;
+  }
+  if (state.group === 'school') {
+    const per = new Map();
+    for (const e of list) {
+      const k = `${e.skola.namn}|${e.skola.kommun}`;
+      if (!per.has(k)) per.set(k, []);
+      per.get(k).push(e);
+    }
+    const groups = [...per.entries()].sort((a, b) => a[0].localeCompare(b[0], 'sv')).slice(0, Math.max(6, Math.round(state.limit / 4)));
+    el('rows').innerHTML = groups.map(([k, items]) => {
+      const s = items[0].skola;
+      return `<section class="sgroup"><h3>${esc(s.namn)} <span class="where">${esc(s.kommun)} · ${esc(s.org)} · ${items.length} utbildningar</span></h3>
+        ${items.map((e) => radHtml(e, vald.has(e.key) ? vald.get(e.key) : -1)).join('')}</section>`;
+    }).join('');
+    el('more').hidden = per.size <= groups.length;
+  } else {
+    const shown = list.slice(0, state.limit);
+    el('rows').innerHTML = shown.map((e) => radHtml(e, vald.has(e.key) ? vald.get(e.key) : -1)).join('');
+    el('more').hidden = list.length <= shown.length;
+    el('more').textContent = `Visa fler (${list.length - shown.length} kvar)`;
+  }
+  renderDist(heltUrval);
+}
+
+/* histogram: fördelningen i urvalet oavsett chansfilter, med meritvärdet utmärkt */
+function renderDist(list) {
+  const svg = el('dist');
+  const W = 600, H = 118, L = 6, R = 6, T = 16, B = 26;
+  const lo = 100, hi = 340, step = 20;
+  const buckets = Array.from({ length: (hi - lo) / step }, (_, i) => ({ from: lo + i * step, to: lo + (i + 1) * step, n: 0 }));
+  let utanfor = 0;
+  for (const e of list) {
+    if (e.prov || e.ref == null) { utanfor++; continue; }
+    const i = Math.floor((e.ref - lo) / step);
+    if (i >= 0 && i < buckets.length) buckets[i].n++;
+    else utanfor++;
+  }
+  const max = Math.max(1, ...buckets.map((b) => b.n));
+  const x = (v) => L + ((v - lo) / (hi - lo)) * (W - L - R);
+  const h = (n) => (n / max) * (H - T - B);
+  const bw = (W - L - R) / buckets.length;
+
+  const bars = buckets.map((b, i) => {
+    const bh = h(b.n);
+    return `<rect class="bkt" data-i="${i}" x="${(x(b.from) + 1).toFixed(1)}" y="${(H - B - bh).toFixed(1)}" width="${(bw - 2).toFixed(1)}" height="${Math.max(bh, b.n ? 1.5 : 0).toFixed(1)}" rx="3" fill="var(--bar)" opacity="${b.n ? 0.9 : 0}"></rect>`;
+  }).join('');
+  const ticks = [100, 160, 220, 280, 340].map((v) =>
+    `<text x="${x(v).toFixed(1)}" y="${H - 9}" fill="var(--ink-3)" font-size="10" font-family="IBM Plex Mono, monospace" text-anchor="middle">${v}</text>`).join('');
+  const mx = x(Math.min(hi, Math.max(lo, state.merit)));
+  const anchor = mx > W - 70 ? 'end' : mx < 46 ? 'start' : 'middle';
+  const marker = `
+    <line x1="${mx.toFixed(1)}" x2="${mx.toFixed(1)}" y1="${T - 6}" y2="${H - B + 4}" stroke="var(--accent)" stroke-width="2"></line>
+    <text x="${mx.toFixed(1)}" y="${T - 10}" fill="var(--accent)" font-size="11" font-weight="600" font-family="IBM Plex Mono, monospace" text-anchor="${anchor}">${pt(state.merit)}</text>`;
+  svg.innerHTML = `<title id="distTitle">Fördelning av antagningsgränser 2026 i urvalet, jämfört med meritvärdet ${pt(state.merit)}</title>
+    <line x1="${L}" x2="${W - R}" y1="${H - B}" y2="${H - B}" stroke="var(--line-strong)" stroke-width="1"></line>
+    ${bars}${ticks}${marker}`;
+  const under = list.filter((e) => !e.prov && e.ref != null && e.ref <= state.merit).length;
+  const jam = list.filter((e) => !e.prov && e.ref != null).length;
+  el('distNote').textContent = jam
+    ? `${under} av ${jam} jämförbara gränser ligger på eller under ditt värde${utanfor ? ` · ${utanfor} utan jämförbar gräns` : ''}`
+    : 'Inga jämförbara gränser i urvalet';
+
+  const tip = el('distTip');
+  svg.onmousemove = (ev) => {
+    const t = ev.target.closest ? ev.target.closest('.bkt') : null;
+    if (!t) { tip.classList.remove('on'); return; }
+    const b = buckets[+t.dataset.i];
+    const box = svg.getBoundingClientRect();
+    tip.innerHTML = `<b>${b.from}–${b.to}</b> poäng<br>${b.n} utbildning${b.n === 1 ? '' : 'ar'}`;
+    tip.style.left = `${ev.clientX - box.left}px`;
+    tip.style.top = `${Math.max(24, ev.clientY - box.top - 8)}px`;
+    tip.classList.add('on');
+  };
+  svg.onmouseleave = () => tip.classList.remove('on');
+}
+
+/* ------------------------------------------------------------ vallistan -- */
+function renderPicks() {
+  el('pickCount').textContent = String(state.lista.length);
+  behorCache = Object.keys(state.betyg).length ? behorighet() : null;
+  byggOhIndex();
+  const host = el('picks');
+  if (!state.lista.length) {
+    host.innerHTML = `<div class="empty">Vallistan är tom. Stjärnmärk utbildningar under <b>Chansen</b> så hamnar de här – i den ordning du lägger till dem. Läs <b>Strategi</b> först: ordningen avgör mer än något annat.</div>`;
+    el('tally').innerHTML = '';
+    el('granskaCard').hidden = true;
+    el('trappaCard').hidden = true;
+    return;
+  }
+  const items = state.lista.map((k) => BY_KEY.get(k)).filter(Boolean);
+  const grupper = { safe: 0, likely: 0, border: 0, tough: 0 };
+  for (const e of items) {
+    const k = bedom(e, state.merit).k;
+    if (k === 'safe' || k === 'open') grupper.safe++;
+    else if (k === 'likely') grupper.likely++;
+    else if (k === 'border') grupper.border++;
+    else if (k === 'tough' || k === 'far') grupper.tough++;
+  }
+  el('tally').innerHTML = [
+    ['safe', grupper.safe, 'god marginal'], ['likely', grupper.likely, 'troliga'],
+    ['border', grupper.border, 'på gränsen'], ['tough', grupper.tough, 'tuffa'],
+    ['', state.lista.length, `av 30 val`],
+  ].map(([c, n, l]) => `<div class="t ${c}"><span class="n">${n}</span><span class="l">${l}</span></div>`).join('')
+    + (grupper.safe === 0 ? `<div class="t" style="flex:1;min-width:220px;justify-content:center"><span class="l" style="color:var(--st-border)">Inget val med god marginal – lägg till minst ett som du säkert kommer in på, längst ner i listan.</span></div>` : '');
+
+  el('granskaCard').hidden = false;
+  el('granska').innerHTML = granska(items).map((g) =>
+    `<div class="gr ${g.k}"><span class="mk">${g.k === 'ok' ? '✓' : g.k === 'bad' ? '✕' : '!'}</span><span><b>${g.t}</b><br><span>${g.p}</span></span></div>`).join('');
+
+  const forslag = grupper.safe === 0 || !SAKER(bedom(items[items.length - 1], state.merit).k) ? sakraForslag(items) : [];
+  el('forslagHold').hidden = !forslag.length;
+  el('forslag').innerHTML = forslag.map((e) => `<div class="fkort">
+      <div class="r-main">
+        <span class="school">${esc(e.skola.namn)}</span>
+        <span class="prog">${esc(e.prog.name)}${e.inr ? ` · ${esc(e.inr)}` : ''}</span>
+        <span class="meta"><span>${esc(e.skola.kommun)}</span><span>·</span><span>gräns 2026 ${e.oppet ? 'alla in' : pt(e.g26)}</span></span>
+      </div>
+      <span class="badge safe"><span class="ico">${e.oppet ? '○' : '++'}</span>${e.oppet ? 'Platser kvar' : 'God marginal'}</span>
+      <button type="button" class="add" data-add="${esc(e.key)}">Lägg sist</button>
+    </div>`).join('');
+
+  el('trappaCard').hidden = items.length < 2;
+  if (items.length >= 2) renderTrappa(items);
+
+  host.innerHTML = items.map((e, i) => {
+    const b = bedom(e, state.merit);
+    const c = CHANCE[b.k];
+    return `<article class="pick">
+      <span class="rank num">${i + 1}</span>
+      <div class="r-main">
+        <span class="school">${skolLank(e.skola)}</span>
+        <span class="prog">${esc(e.prog.name)}${e.inr ? ` · ${esc(e.inr)}` : ''}</span>
+        <span class="meta"><span>${esc(e.skola.kommun)}</span><span>·</span><span>gräns 2026 ${e.oppet ? 'alla in' : pt(e.g26)}</span>${e.median != null ? `<span>·</span><span>median ${pt(e.median)}</span>` : ''}${e.reserver ? `<span>·</span><span>${pt(e.reserver)} reserver</span>` : ''}${ohIndex.get(skolnyckel(e.skola)) ? `<span class="pill oh">öppet hus ${esc(visaDatum(ohIndex.get(skolnyckel(e.skola)).d))}</span>` : ''}</span>
+      </div>
+      <span class="badge ${CHANCE_CLASS[b.k]}"><span class="ico">${c.ico}</span>${c.label}</span>
+      <span class="pick-acts">
+        <button type="button" data-up="${i}" ${i === 0 ? 'disabled' : ''} aria-label="Flytta upp">↑</button>
+        <button type="button" data-down="${i}" ${i === items.length - 1 ? 'disabled' : ''} aria-label="Flytta ner">↓</button>
+        <button type="button" data-del="${esc(e.key)}" aria-label="Ta bort">✕</button>
+      </span>
+      <label class="pick-note">
+        <textarea data-note="${esc(e.key)}" rows="1" placeholder="Anteckning – intryck, restid, frågor att ställa…" aria-label="Anteckning om ${esc(e.skola.namn)}">${esc(state.anteckningar[e.key] || '')}</textarea>
+      </label>
+      <label class="hemsida" style="grid-column: 1 / -1">
+        <input type="url" data-hemsida="${esc(skolnyckel(e.skola))}" placeholder="Skolans hemsida – klistra in adressen så blir namnet en riktig länk" value="${esc(state.hemsidor[skolnyckel(e.skola)] || '')}" aria-label="Hemsida för ${esc(e.skola.namn)}">
+      </label>
+    </article>`;
+  }).join('');
+}
+
+/* --------------------------------------------------------- granskning ---- */
+function granska(items) {
+  const kat = items.map((e) => bedom(e, state.merit).k);
+  const out = [];
+  const namn = (i) => `<span class="num">val ${i + 1}</span> ${esc(items[i].skola.namn)}`;
+
+  // Det dyraste felet: ett säkert val som blockerar ett osäkrare val längre ner.
+  let block = null;
+  for (let i = 0; i < items.length && !block; i++) {
+    if (!SAKER(kat[i])) continue;
+    for (let j = i + 1; j < items.length; j++) {
+      if (RISK(kat[j])) { block = { i, j }; break; }
+    }
+  }
+  if (block) {
+    out.push({ k: 'bad', t: 'Ett säkert val blockerar listan',
+      p: `${namn(block.i)} kommer du in på med marginal, men det ligger ovanför ${namn(block.j)}. Blir du antagen till det högre valet stryks det lägre i samma sekund. Vill du helst gå på ${esc(items[block.j].skola.namn)} måste det flyttas upp.` });
+  }
+
+  const sakra = kat.filter(SAKER).length;
+  if (!sakra) {
+    out.push({ k: 'bad', t: 'Inget säkert kort',
+      p: 'Ingen utbildning i listan har god marginal till ditt meritvärde. Går inget av valen vägen står du i reservkö till allt i juli. Lägg till minst ett säkert val längst ner.' });
+  } else if (SAKER(kat[kat.length - 1])) {
+    out.push({ k: 'ok', t: 'Listan slutar med ett säkert kort',
+      p: `${namn(items.length - 1)} har god marginal och ligger sist – precis där det ska ligga.` });
+  } else {
+    out.push({ k: 'warn', t: 'Säkra kortet ligger inte sist',
+      p: `Du har ${sakra} val med god marginal, men listan slutar på ${namn(items.length - 1)}. Flytta ett säkert val till sista platsen så fångar det upp allt annat.` });
+  }
+
+  const refs = items.filter((e) => !e.prov && e.ref != null).map((e) => e.ref);
+  if (refs.length >= 3) {
+    const spann = Math.max(...refs) - Math.min(...refs);
+    if (spann < 25) {
+      out.push({ k: 'warn', t: 'Trappan är flack',
+        p: `Alla jämförbara val ligger inom ${pt(spann)} poäng av varandra. Då fungerar listan som ett enda val – räcker poängen inte till det ena räcker det sällan till de andra heller. Sprid gränserna nedåt.` });
+    } else {
+      out.push({ k: 'ok', t: 'Trappan har spridning',
+        p: `Gränserna i listan sträcker sig över ${pt(spann)} poäng, från ${pt(Math.max(...refs))} ned till ${pt(Math.min(...refs))}.` });
+    }
+  }
+
+  if (items.length < 5) {
+    out.push({ k: 'warn', t: `Bara ${items.length} val`,
+      p: 'Du får göra 30. Varje extra val längst ner är en gratis försäkring – de kostar ingenting och kan bara hjälpa.' });
+  }
+
+  const prov = items.filter((e) => e.prov || e.provTroligt).length;
+  if (prov) {
+    out.push({ k: 'warn', t: `${prov} val kan kräva färdighetsprov`,
+      p: 'Kallelsen kommer i februari, strax efter att ansökan stängt. Uteblivet prov betyder ingen plats, oavsett meritvärde – och på de utbildningarna går antagningsgränsen inte att jämföra med ett rent meritvärde.' });
+  }
+
+  if (behorCache) {
+    const utan = items.filter((e) => PROVBARA.has(e.prog.behorighet) && behorCache[e.prog.behorighet] === false);
+    if (utan.length) {
+      out.push({ k: 'bad', t: `${utan.length} val du inte är behörig till`,
+        p: `Betygen du lagt in räcker inte för behörighet till ${esc([...new Set(utan.map((e) => e.prog.name))].join(', '))}. Utan behörighet prövas valet inte alls, hur högt meritvärdet än är.` });
+    }
+  }
+
+  const dromRisk = kat.length && RISK(kat[0]);
+  if (dromRisk) {
+    out.push({ k: 'ok', t: 'Drömvalet ligger först',
+      p: `${namn(0)} ligger över ditt meritvärde – och det är helt rätt placerat. Ett högt förstahandsval kostar ingenting: blir du antagen längre ner står du kvar som reserv uppåt.` });
+  }
+  return out;
+}
+
+function sakraForslag(items) {
+  const iListan = new Set(state.lista);
+  const koder = new Set(items.map((e) => e.kod));
+  const kommuner = new Set(items.map((e) => e.skola.kommun));
+  const kod2 = koder.size ? koder : state.prog;
+  const kom2 = kommuner.size ? kommuner : state.kom;
+  const poang = (e) => (kod2.has(e.kod) ? 4 : 0) + (kom2.has(e.skola.kommun) ? 2 : 0);
+  return EDU
+    .filter((e) => !iListan.has(e.key) && !e.prov && e.prog.type !== 'im' && e.prog.type !== 'pabyggnad'
+      && SAKER(bedom(e, state.merit).k)
+      && (!behorCache || !PROVBARA.has(e.prog.behorighet) || behorCache[e.prog.behorighet] !== false))
+    .sort((a, b) => poang(b) - poang(a) || (b.ref ?? -1) - (a.ref ?? -1))
+    .slice(0, 3);
+}
+
+/* trappan: antagningsgräns per val, i vallistans ordning */
+function renderTrappa(items) {
+  const svg = el('trappa');
+  const rowH = 22, T = 20, B = 26, L = 30, R = 46;
+  const W = 620, H = T + items.length * rowH + B;
+  svg.setAttribute('viewBox', `0 0 ${W} ${H}`);
+  const x = (v) => L + (Math.max(0, Math.min(340, v)) / 340) * (W - L - R);
+
+  const rader = items.map((e, i) => {
+    const b = bedom(e, state.merit);
+    const y = T + i * rowH + rowH / 2;
+    const st = { safe: 'var(--st-safe)', open: 'var(--st-safe)', likely: 'var(--st-likely)', border: 'var(--st-border)', tough: 'var(--st-tough)', far: 'var(--st-tough)' }[b.k] || 'var(--ink-3)';
+    const rank = `<text x="${L - 10}" y="${y + 4}" fill="var(--ink-3)" font-size="11" font-family="IBM Plex Mono, monospace" text-anchor="end">${i + 1}</text>`;
+    if (e.prov || e.ref == null) {
+      return `${rank}<g class="tr" data-i="${i}"><line x1="${L}" x2="${W - R}" y1="${y}" y2="${y}" stroke="var(--line)" stroke-width="1" stroke-dasharray="3 3"></line>
+        <text x="${W - R + 7}" y="${y + 4}" fill="var(--ink-3)" font-size="10.5" font-family="IBM Plex Mono, monospace">prov</text></g>`;
+    }
+    const xe = x(e.ref);
+    return `${rank}<g class="tr" data-i="${i}">
+      <rect x="${L}" y="${(y - 5).toFixed(1)}" width="${Math.max(2, xe - L).toFixed(1)}" height="10" rx="4" fill="var(--bar)" opacity="0.85"></rect>
+      <circle cx="${xe.toFixed(1)}" cy="${y}" r="5" fill="${st}" stroke="var(--surface)" stroke-width="2"></circle>
+      <text x="${W - R + 7}" y="${y + 4}" fill="var(--ink-2)" font-size="10.5" font-family="IBM Plex Mono, monospace">${e.oppet ? 'alla in' : pt(e.ref)}</text></g>`;
+  }).join('');
+
+  const mx = x(state.merit);
+  const ticks = [0, 85, 170, 255, 340].map((v) =>
+    `<text x="${x(v).toFixed(1)}" y="${H - 8}" fill="var(--ink-3)" font-size="10" font-family="IBM Plex Mono, monospace" text-anchor="middle">${v}</text>`).join('');
+  svg.innerHTML = `<title id="trappaTitle">Antagningsgräns 2026 för varje val i vallistan, jämfört med meritvärdet ${pt(state.merit)}</title>
+    <line x1="${L}" x2="${W - R}" y1="${H - B + 2}" y2="${H - B + 2}" stroke="var(--line)" stroke-width="1"></line>
+    <line x1="${mx.toFixed(1)}" x2="${mx.toFixed(1)}" y1="${T - 12}" y2="${H - B + 6}" stroke="var(--accent)" stroke-width="2"></line>
+    <text x="${mx.toFixed(1)}" y="${T - 16}" fill="var(--accent)" font-size="11" font-weight="600" font-family="IBM Plex Mono, monospace" text-anchor="${mx > W - 90 ? 'end' : 'middle'}">${pt(state.merit)}</text>
+    ${rader}${ticks}`;
+
+  const tip = el('trappaTip');
+  svg.onmousemove = (ev) => {
+    const g = ev.target.closest ? ev.target.closest('.tr') : null;
+    if (!g) { tip.classList.remove('on'); return; }
+    const e = items[+g.dataset.i];
+    const b = bedom(e, state.merit);
+    const box = svg.getBoundingClientRect();
+    tip.innerHTML = `<b>${+g.dataset.i + 1}.</b> ${esc(e.skola.namn)}<br>${esc(e.prog.name)}<br>${e.prov ? 'färdighetsprov – ej jämförbar' : `gräns ${e.oppet ? 'alla in' : pt(e.ref)} · ${CHANCE[b.k].label}`}`;
+    tip.style.left = `${ev.clientX - box.left}px`;
+    tip.style.top = `${Math.max(30, ev.clientY - box.top - 8)}px`;
+    tip.classList.add('on');
+  };
+  svg.onmouseleave = () => tip.classList.remove('on');
+}
+
+/* ------------------------------------------------------------ öppet hus --- */
+function renderAgenda() {
+  byggOhIndex();
+  const kommande = state.oppetHus.filter((o) => o.d >= IDAG).length;
+  el('ohCount').textContent = String(kommande);
+
+  const poster = state.oppetHus
+    .map((o, i) => ({ ...o, i, skola: SKOLA_PER_NYCKEL.get(o.s) }))
+    .filter((o) => o.skola)
+    .sort((a, b) => a.d.localeCompare(b.d));
+
+  const massaForbi = MASSAN.till < IDAG;
+  const massaRad = `<div class="oh-row massa${massaForbi ? ' forbi' : ''}">
+    <span class="oh-when"><span class="d">17–19 nov</span><span class="rel">${esc(relativt(MASSAN.fran))}</span></span>
+    <span class="oh-what"><span class="n">${esc(MASSAN.namn)} 2026</span><span class="t">${esc(MASSAN.plats)} · alla skolor på ett ställe</span></span>
+    <span class="oh-acts"><a href="${esc(MASSAN.url)}" target="_blank" rel="noopener noreferrer">gymnasiemassan.nu ↗</a></span>
+  </div>`;
+
+  const skolRader = poster.map((o) => ({
+    d: o.d,
+    html: `<div class="oh-row${o.d < IDAG ? ' forbi' : ''}">
+      <span class="oh-when"><span class="d">${esc(visaDatum(o.d))}</span><span class="rel">${esc(relativt(o.d))}</span></span>
+      <span class="oh-what"><span class="n">${skolLank(o.skola)}</span><span class="t">${esc(o.skola.kommun)}${o.t ? ` · ${esc(o.t)}` : ''}</span></span>
+      <span class="oh-acts">
+        <a href="${esc(sokUrl(`${o.skola.namn} öppet hus`))}" target="_blank" rel="noopener noreferrer">sök öppet hus ↗</a>
+        <button type="button" data-ohdel="${o.i}" aria-label="Ta bort öppet hus för ${esc(o.skola.namn)}">✕</button>
+      </span>
+    </div>`,
+  }));
+
+  const allt = [...skolRader, { d: MASSAN.fran, html: massaRad }]
+    .sort((a, b) => a.d.localeCompare(b.d))
+    .map((r) => r.html)
+    .join('');
+
+  el('agenda').innerHTML = allt + (poster.length ? '' :
+    `<div class="empty" style="margin-top:8px">Inga öppna hus inlagda än. Skolorna publicerar sina datum under september och oktober – hittar du ett, lägg in det nedan. Då syns det både här och som märke på skolans rader under Chansen.</div>`);
+}
+
+function laggTillOppetHus() {
+  const namn = el('ohSkola').value.trim();
+  const datum = el('ohDatum').value;
+  const notis = el('ohNotis').value.trim();
+  const msg = el('ohMsg');
+  const nyckel = norm(namn);
+  if (!namn) { msg.textContent = 'Skriv in vilken skola det gäller.'; return; }
+  if (!SKOLNYCKLAR.has(nyckel)) { msg.textContent = `Hittar ingen skola som heter "${namn}". Välj ur listan som dyker upp när du skriver.`; return; }
+  if (!/^\d{4}-\d{2}-\d{2}$/.test(datum)) { msg.textContent = 'Välj ett datum.'; return; }
+  if (state.oppetHus.some((o) => o.s === nyckel && o.d === datum)) { msg.textContent = 'Det datumet finns redan för skolan.'; return; }
+  state.oppetHus.push({ s: nyckel, d: datum, t: notis });
+  msg.textContent = '';
+  el('ohSkola').value = '';
+  el('ohNotis').value = '';
+  save();
+  renderAgenda();
+  renderRows();
+  renderPicks();
+}
+
+/* ----------------------------------------------------------- dela kod ---- */
+// Betygen är personuppgifter, så de följer bara med om man kryssar i det.
+const DELBART = ['merit', 'meritSatt', 'lista', 'anteckningar', 'hemsidor', 'oppetHus'];
+const KOD_PREFIX = 'GK1';
+
+function b64url(u8) {
+  let bin = '';
+  for (let i = 0; i < u8.length; i += 8192) bin += String.fromCharCode(...u8.subarray(i, i + 8192));
+  return btoa(bin).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
+}
+function franB64url(t) {
+  const bin = atob(t.replace(/-/g, '+').replace(/_/g, '/'));
+  const u8 = new Uint8Array(bin.length);
+  for (let i = 0; i < bin.length; i++) u8[i] = bin.charCodeAt(i);
+  return u8;
+}
+async function genomStrom(bytes, strom) {
+  const buf = await new Response(new Blob([bytes]).stream().pipeThrough(strom)).arrayBuffer();
+  return new Uint8Array(buf);
+}
+
+async function skapaKod(medBetyg) {
+  const o = {};
+  for (const k of DELBART) o[k] = state[k];
+  if (medBetyg) o.betyg = state.betyg;
+  const bytes = new TextEncoder().encode(JSON.stringify(o));
+  if (typeof CompressionStream === 'function') {
+    try {
+      return `${KOD_PREFIX}z${b64url(await genomStrom(bytes, new CompressionStream('deflate-raw')))}`;
+    } catch (err) { /* faller tillbaka på okomprimerat */ }
+  }
+  return `${KOD_PREFIX}r${b64url(bytes)}`;
+}
+
+async function lasKod(kod) {
+  const t = String(kod || '').trim().replace(/\s+/g, '');
+  if (!t.startsWith(KOD_PREFIX)) throw new Error('Koden ska börja med GK1.');
+  const sort = t[KOD_PREFIX.length];
+  if (sort !== 'z' && sort !== 'r') throw new Error('Koden är av en sort appen inte känner igen.');
+  let bytes;
+  try { bytes = franB64url(t.slice(KOD_PREFIX.length + 1)); } catch (err) { throw new Error('Koden är trasig – kopiera hela den, utan tecken före eller efter.'); }
+  if (sort === 'z') {
+    if (typeof DecompressionStream !== 'function') throw new Error('Den här webbläsaren kan inte packa upp koden. Prova en nyare webbläsare.');
+    bytes = await genomStrom(bytes, new DecompressionStream('deflate-raw'));
+  }
+  const o = JSON.parse(new TextDecoder().decode(bytes));
+  if (!o || typeof o !== 'object') throw new Error('Koden innehåller inget som går att läsa.');
+  return o;
+}
+
+// Skriver bara över det som faktiskt finns i koden.
+function tillampaKod(o) {
+  const antal = { val: 0, oh: 0, betyg: 0 };
+  if (typeof o.merit === 'number') { state.merit = Math.max(0, Math.min(340, o.merit)); state.meritSatt = !!o.meritSatt; }
+  if (Array.isArray(o.lista)) {
+    state.lista = o.lista.filter((k) => BY_KEY.has(k)).slice(0, 30);
+    antal.val = state.lista.length;
+  }
+  if (o.anteckningar && typeof o.anteckningar === 'object') state.anteckningar = o.anteckningar;
+  if (o.hemsidor && typeof o.hemsidor === 'object') state.hemsidor = o.hemsidor;
+  if (Array.isArray(o.oppetHus)) {
+    state.oppetHus = o.oppetHus.filter((x) => x && SKOLNYCKLAR.has(x.s) && /^\d{4}-\d{2}-\d{2}$/.test(x.d));
+    antal.oh = state.oppetHus.length;
+  }
+  if (o.betyg && typeof o.betyg === 'object') {
+    state.betyg = o.betyg;
+    antal.betyg = Object.keys(o.betyg).length;
+  }
+  return antal;
+}
+
+async function kopieraKod() {
+  const msg = el('delaMsg');
+  const ut = el('kodUt');
+  msg.className = 'dela-msg';
+  try {
+    const kod = await skapaKod(el('delaBetyg').checked);
+    ut.value = kod;
+    try {
+      await navigator.clipboard.writeText(kod);
+      ut.hidden = true;
+      msg.classList.add('ok');
+      msg.textContent = `Kopierad – ${state.lista.length} val, ${kod.length} tecken. Klistra in den där du skickar den.`;
+    } catch (err) {
+      // Urklipp nekas i vissa lägen: visa koden så den kan markeras för hand.
+      ut.hidden = false;
+      ut.focus();
+      ut.select();
+      msg.textContent = 'Webbläsaren nekade urklipp – markera koden nedan och kopiera för hand.';
+    }
+  } catch (err) {
+    msg.classList.add('fel');
+    msg.textContent = 'Kunde inte skapa koden.';
+  }
+}
+
+async function oppnaKod() {
+  const msg = el('kodInMsg');
+  msg.className = 'dela-msg';
+  const rå = el('kodIn').value;
+  if (!rå.trim()) { msg.classList.add('fel'); msg.textContent = 'Klistra in en kod först.'; return; }
+  let o;
+  try { o = await lasKod(rå); } catch (err) {
+    msg.classList.add('fel');
+    msg.textContent = err.message;
+    return;
+  }
+  const antal = tillampaKod(o);
+  save();
+  renderAll();
+  el('kodIn').value = '';
+  msg.classList.add('ok');
+  msg.textContent = `Öppnad: ${antal.val} val, ${antal.oh} öppet hus`
+    + (antal.betyg ? `, ${antal.betyg} betyg` : '')
+    + `, meritvärde ${pt(state.merit)}.`;
+}
+
+/* ---------------------------------------------------------- betygsvyn ---- */
+function renderGrades() {
+  const rows = [...SUBJECTS, LANG].map((s) => {
+    const val = state.betyg[s.k] || '';
+    return `<div class="grade-row">
+      <span class="gn">${esc(s.n)}${s.hint ? `<small>${esc(s.hint)}</small>` : ''}</span>
+      <span class="gbtns" role="group" aria-label="Betyg i ${esc(s.n)}">
+        ${GRADES.map((g) => `<button type="button" class="${g === 'F' ? 'f' : ''}" data-sub="${s.k}" data-grade="${g}" aria-pressed="${val === g}">${g}</button>`).join('')}
+        <button type="button" class="none" data-sub="${s.k}" data-grade="" aria-pressed="${!val}" aria-label="Inget betyg">–</button>
+      </span>
+    </div>`;
+  }).join('');
+  el('grades').innerHTML = rows;
+
+  const m = raknaMerit();
+  el('calcMerit').textContent = m.harBetyg ? pt(m.summa) : '–';
+  el('calcNote').textContent = m.harBetyg
+    ? `Baserat på ${m.antal} av 16 ämnen${m.lang != null ? ' + moderna språk som 17:e ämne' : ' · inget språkval inlagt (max blir då 320)'}.`
+    : 'Slå in betyg för att räkna ut meritvärdet.';
+  el('useCalc').disabled = !m.harBetyg;
+
+  const b = behorighet();
+  const har = Object.keys(state.betyg).length > 0;
+  const rad = (ok, titel, txt) => `<div class="check ${!har ? '' : ok ? 'ok' : 'no'}"><span class="mk">${!har ? '·' : ok ? '✓' : '✕'}</span><span><b>${titel}</b><br><span>${txt}</span></span></div>`;
+  el('behorighet').innerHTML = !har
+    ? `<div class="check"><span class="mk">·</span><span><b>Inga betyg inlagda</b><br><span>Slå in betygen till vänster så prövas behörigheten mot varje programtyp.</span></span></div>`
+    : [
+      rad(b.bas, 'Svenska, engelska, matematik', b.bas ? 'Godkänt i alla tre basämnena.' : 'Alla tre måste vara minst E för alla nationella program.'),
+      rad(b.yrke, 'Yrkesprogram', `Kräver basämnena + 5 andra godkända. Du har ${b.ovriga} andra godkända.`),
+      rad(b.hf, 'Estetiska programmet', `Kräver basämnena + 9 andra godkända. Du har ${b.ovriga}.`),
+      rad(b['hf-so'], 'Ekonomi, humanistiska, samhällsvetenskap', b['hf-so'] ? 'Basämnena + 9 andra, inklusive ge, hi, sh och re.' : `Kräver även godkänt i geografi, historia, samhällskunskap och religionskunskap.${b.hf ? '' : ` Du har ${b.ovriga} av 9 andra ämnen.`}`),
+      rad(b['hf-no'], 'Natur och teknik', b['hf-no'] ? 'Basämnena + 9 andra, inklusive biologi, fysik och kemi.' : `Kräver även godkänt i biologi, fysik och kemi.${b.hf ? '' : ` Du har ${b.ovriga} av 9 andra ämnen.`}`),
+    ].join('');
+}
+
+/* --------------------------------------------------------------- datum --- */
+const TIMELINE = [
+  { w: 'November', t: 'Utbudet publiceras', p: 'Alla utbildningar läggs upp på ansökningswebben Indra. Öppet hus och Gymnasiemässan ligger under hösten – börja där.', key: false },
+  { w: 'Vecka 3', t: 'Inloggningsuppgifter kommer med posten', p: 'Till Indra på indra.storsthlm.se. Hör av dig till studie- och yrkesvägledaren om brevet inte kommer.', key: false },
+  { w: '15 jan – 16 feb', t: 'Ansökan öppen', p: 'Här görs valet: upp till 30 utbildningar i egen rangordning. Ansökan bygger på höstterminens betyg.', key: true },
+  { w: '17 feb – 7 apr', t: 'Webben stängd', p: 'Antagningen arbetar med ansökningarna. Inga ändringar går att göra.', key: false },
+  { w: '18 feb', t: 'Besked om färdighetsprov', p: 'Kallelser till prov för estetiska utbildningar, spetsutbildningar och idrottsutbildningar dyker upp under Mina meddelanden och i mejlen.', key: false },
+  { w: '24 mar – 7 apr', t: 'Resultat från färdighetsprov', p: 'Provpoängen läggs till meritvärdet på de utbildningar som har prov.', key: false },
+  { w: '14 april', t: 'Preliminär antagning', p: 'En temperaturmätare på höstbetygen, inte ett besked. Samtidigt öppnar omvalsperioden.', key: true },
+  { w: '12 maj', t: 'Sista dag för ansökan och omval', p: 'Webben stänger 23:59. Ändringar under omvalsperioden ger ingen nackdel mot dem som sökte i februari.', key: true },
+  { w: '24 juni', t: 'Slutbetygen in', p: 'Sista dag att lämna in vårterminens betyg. Inloggningen stänger på kvällen.', key: false },
+  { w: '1 juli', t: 'Slutantagningen publiceras', p: 'Det skarpa beskedet, byggt på slutbetygen. Nu syns också årets antagningsgränser.', key: true },
+  { w: '16 juli', t: 'Sista svarsdag', p: 'Svara i Indra – ett obesvarat besked kan kosta platsen.', key: true },
+  { w: '29 juli – 4 aug', t: 'Första reservantagningen', p: 'Lediga platser fördelas till reserver. Svarsdag i början av augusti.', key: false },
+  { w: '6 – 10 aug', t: 'Andra reservantagningen', p: 'Sista centrala omgången.', key: false },
+  { w: 'Från 11 aug', t: 'Skolorna tar över', p: 'Därefter sköter varje skola sin egen reservlista – ring skolan och fråga om könumret.', key: false },
+];
+
+/* ---------------------------------------------------------------- init --- */
+function renderChips() {
+  const koder = [...new Set(EDU.map((e) => e.kod))]
+    .sort((a, b) => (D.program[a]?.name || a).localeCompare(D.program[b]?.name || b, 'sv'));
+  el('progChips').innerHTML = koder.map((k) => {
+    const p = D.program[k];
+    return `<button type="button" data-prog="${k}" aria-pressed="${state.prog.has(k)}" title="${esc(p ? p.name : k)}${p ? ` – ${TYPE_LABEL[p.type]}` : ''}">${esc(k)}</button>`;
+  }).join('');
+  el('komChips').innerHTML = D.kommuner.map((k) =>
+    `<button type="button" data-kom="${esc(k)}" aria-pressed="${state.kom.has(k)}">${esc(k)}</button>`).join('');
+}
+function renderSkolLista() {
+  el('skolLista').innerHTML = D.skolor
+    .slice()
+    .sort((a, b) => a.namn.localeCompare(b.namn, 'sv'))
+    .map((sk) => `<option value="${esc(sk.namn)}">${esc(sk.kommun)}</option>`)
+    .join('');
+}
+function renderTimeline() {
+  el('timeline').innerHTML = TIMELINE.map((i) => `<div class="tl-item${i.key ? ' key' : ''}">
+    <span class="tl-when">${esc(i.w)}</span>
+    <span class="tl-mark"><i></i></span>
+    <div class="tl-body"><h3>${esc(i.t)}</h3><p>${esc(i.p)}</p></div>
+  </div>`).join('');
+}
+function syncMeritInputs() {
+  el('merit').value = state.merit;
+  el('meritRange').value = Math.min(340, Math.max(80, state.merit));
+  el('meritTag').hidden = state.meritSatt;
+}
+function renderAll() { renderRows(); renderPicks(); renderGrades(); renderAgenda(); syncMeritInputs(); }
+
+function setMerit(v, satt = true) {
+  const n = Math.max(0, Math.min(340, Number(v) || 0));
+  state.merit = n;
+  if (satt) state.meritSatt = true;
+  syncMeritInputs();
+  renderRows();
+  renderPicks();
+  save();
+}
+function toggleStar(key) {
+  const i = state.lista.indexOf(key);
+  if (i >= 0) state.lista.splice(i, 1);
+  else if (state.lista.length < 30) state.lista.push(key);
+  else { alert('Vallistan är full – Gymnasieantagningen tillåter max 30 val.'); return; }
+  save();
+  renderRows();
+  renderPicks();
+}
+
+/* händelser */
+el('merit').addEventListener('input', (e) => setMerit(e.target.value));
+el('meritRange').addEventListener('input', (e) => setMerit(e.target.value));
+el('q').addEventListener('input', (e) => { state.q = e.target.value; state.limit = 60; renderRows(); });
+el('sort').addEventListener('change', (e) => { state.sort = e.target.value; renderRows(); });
+el('group').addEventListener('change', (e) => { state.group = e.target.value; state.limit = 60; renderRows(); });
+el('more').addEventListener('click', () => { state.limit += 120; renderRows(); });
+for (const [id, prop] of [['segChance', 'chance'], ['segType', 'type'], ['segOrg', 'org']]) {
+  el(id).addEventListener('click', (ev) => {
+    const b = ev.target.closest('button[data-v]');
+    if (!b) return;
+    state[prop] = b.dataset.v;
+    state.limit = 60;
+    for (const s of el(id).querySelectorAll('button')) s.setAttribute('aria-pressed', String(s === b));
+    renderRows();
+  });
+}
+el('progChips').addEventListener('click', (ev) => {
+  const b = ev.target.closest('button[data-prog]');
+  if (!b) return;
+  const k = b.dataset.prog;
+  state.prog.has(k) ? state.prog.delete(k) : state.prog.add(k);
+  b.setAttribute('aria-pressed', String(state.prog.has(k)));
+  state.limit = 60;
+  renderRows();
+});
+el('komChips').addEventListener('click', (ev) => {
+  const b = ev.target.closest('button[data-kom]');
+  if (!b) return;
+  const k = b.dataset.kom;
+  state.kom.has(k) ? state.kom.delete(k) : state.kom.add(k);
+  b.setAttribute('aria-pressed', String(state.kom.has(k)));
+  state.limit = 60;
+  renderRows();
+});
+el('clearProg').addEventListener('click', () => { state.prog.clear(); renderChips(); renderRows(); });
+el('clearKom').addEventListener('click', () => { state.kom.clear(); renderChips(); renderRows(); });
+el('rows').addEventListener('click', (ev) => {
+  const b = ev.target.closest('button[data-star]');
+  if (b) toggleStar(b.dataset.star);
+});
+let noteTimer = null;
+el('picks').addEventListener('input', (ev) => {
+  const ta = ev.target.closest('textarea[data-note]');
+  if (!ta) return;
+  const k = ta.dataset.note;
+  if (ta.value.trim()) state.anteckningar[k] = ta.value; else delete state.anteckningar[k];
+  clearTimeout(noteTimer);
+  noteTimer = setTimeout(save, 700);
+});
+el('forslag').addEventListener('click', (ev) => {
+  const b = ev.target.closest('button[data-add]');
+  if (!b) return;
+  toggleStar(b.dataset.add);
+});
+el('picks').addEventListener('click', (ev) => {
+  const up = ev.target.closest('button[data-up]');
+  const down = ev.target.closest('button[data-down]');
+  const del = ev.target.closest('button[data-del]');
+  if (up) { const i = +up.dataset.up; [state.lista[i - 1], state.lista[i]] = [state.lista[i], state.lista[i - 1]]; }
+  else if (down) { const i = +down.dataset.down; [state.lista[i + 1], state.lista[i]] = [state.lista[i], state.lista[i + 1]]; }
+  else if (del) { state.lista = state.lista.filter((k) => k !== del.dataset.del); delete state.anteckningar[del.dataset.del]; }
+  else return;
+  save();
+  renderPicks();
+  renderRows();
+});
+el('grades').addEventListener('click', (ev) => {
+  const b = ev.target.closest('button[data-sub]');
+  if (!b) return;
+  const { sub, grade } = b.dataset;
+  if (grade) state.betyg[sub] = grade; else delete state.betyg[sub];
+  save();
+  renderGrades();
+  renderRows();
+});
+el('useCalc').addEventListener('click', () => {
+  const m = raknaMerit();
+  if (!m.harBetyg) return;
+  setMerit(m.summa);
+  showTab('tab-chans');
+});
+el('theme').addEventListener('click', () => {
+  const cur = document.documentElement.getAttribute('data-theme');
+  const dark = cur ? cur === 'dark' : matchMedia('(prefers-color-scheme: dark)').matches;
+  document.documentElement.setAttribute('data-theme', dark ? 'light' : 'dark');
+});
+
+el('kopieraKod').addEventListener('click', kopieraKod);
+el('oppnaKod').addEventListener('click', oppnaKod);
+el('ohAdd').addEventListener('click', laggTillOppetHus);
+el('ohSkola').addEventListener('keydown', (ev) => { if (ev.key === 'Enter') laggTillOppetHus(); });
+el('ohNotis').addEventListener('keydown', (ev) => { if (ev.key === 'Enter') laggTillOppetHus(); });
+el('agenda').addEventListener('click', (ev) => {
+  const b = ev.target.closest('button[data-ohdel]');
+  if (!b) return;
+  state.oppetHus.splice(+b.dataset.ohdel, 1);
+  save();
+  renderAgenda();
+  renderRows();
+  renderPicks();
+});
+el('picks').addEventListener('change', (ev) => {
+  const inp = ev.target.closest('input[data-hemsida]');
+  if (!inp) return;
+  const url = stadaUrl(inp.value);
+  if (url) state.hemsidor[inp.dataset.hemsida] = url;
+  else delete state.hemsidor[inp.dataset.hemsida];
+  inp.value = url;
+  save();
+  renderRows();
+  renderPicks();
+  renderAgenda();
+});
+
+const TABS = ['tab-chans', 'tab-lista', 'tab-oh', 'tab-strategi', 'tab-merit', 'tab-info'];
+function showTab(id) {
+  for (const t of TABS) {
+    const btn = el(t);
+    const panel = el(btn.getAttribute('aria-controls'));
+    btn.setAttribute('aria-selected', String(t === id));
+    panel.hidden = t !== id;
+  }
+}
+for (const t of TABS) el(t).addEventListener('click', () => showTab(t));
+
+el('metaYears').textContent = D.meta.ar.join(', ');
+el('metaCounts').textContent = `${D.meta.antalUtbildningar} utbildningar på ${D.meta.antalSkolor} skolor i ${D.kommuner.length} kommuner.`;
+el('metaDate').textContent = D.meta.hamtad;
+
+// Hostas sidan fristående kan koden ligga i adressens hash: #GK1...
+try {
+  const hash = decodeURIComponent(String(location.hash || '').replace(/^#s?=?/, ''));
+  if (hash.startsWith(KOD_PREFIX)) {
+    el('kodIn').value = hash;
+    el('kodInMsg').textContent = 'En kod följde med länken – tryck "Öppna koden" för att läsa in den.';
+    showTab('tab-lista');
+    history.replaceState(null, '', location.pathname + location.search);
+  }
+} catch (err) { /* ingen hash att bry sig om */ }
+
+renderChips();
+renderSkolLista();
+renderTimeline();
+renderAll();
+connect();
+</script>
