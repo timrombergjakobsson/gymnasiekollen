@@ -26,8 +26,8 @@ const html = `<!DOCTYPE html>
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <title>${titleMatch?.[1] ?? 'Gymnasiekollen'}</title>
   <meta name="description" content="Jämför gymnasieskolor och se dina chanser baserat på meritvärde">
-  <meta name="theme-color" content="#17527d" media="(prefers-color-scheme: light)">
-  <meta name="theme-color" content="#0e1418" media="(prefers-color-scheme: dark)">
+  <meta name="theme-color" content="#f4f6f8" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#0f2238" media="(prefers-color-scheme: dark)">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <link rel="apple-touch-icon" href="icon-192.png">
@@ -35,7 +35,7 @@ const html = `<!DOCTYPE html>
   <link rel="manifest" href="manifest.json">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible+Next:wght@400;600;700&family=Familjen+Grotesk:wght@500;700&display=swap">
   <style>${styleMatch?.[1] ?? ''}</style>
 </head>
 <body>
