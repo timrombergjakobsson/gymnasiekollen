@@ -196,11 +196,13 @@ dialog.rail {
   .filterknapp { display: inline-flex; }
   dialog.rail:not([open]) { display: none; }
   dialog.rail[open] {
-    position: fixed; inset: auto 0 0 0; width: 100%; max-height: 85dvh; display: flex; flex-direction: column;
+    /* Fast höjd: utan den trycker Safari ihop filterdelen till ingenting. */
+    position: fixed; inset: auto 0 0 0; width: 100%; height: 85vh; height: 85dvh; max-height: none; display: flex; flex-direction: column;
     border-radius: 14px 14px 0 0; border-width: 1px 0 0;
   }
   dialog.rail::backdrop { background: rgb(6 18 34 / .55); }
-  .rail-in { overflow-y: auto; flex: 1; padding: 0 16px 16px; }
+  .rail-in { overflow-y: auto; flex: 1 1 0; min-height: 0; overscroll-behavior: contain; -webkit-overflow-scrolling: touch; padding: 0 16px 16px; }
+  .sheet-head, .sheet-foot { flex: none; }
   .sheet-head { display: flex; align-items: center; justify-content: space-between; padding: 14px 16px 6px; }
   .sheet-head h2 { font-size: 20px; }
   .sheet-foot { display: block; padding: 12px 16px calc(12px + env(safe-area-inset-bottom)); border-top: 1px solid var(--line); }
