@@ -195,7 +195,7 @@ figure.dist figcaption { font-size: 13px; color: var(--ink-2); }
 }
 
 /* ---------- filter ---------- */
-.layout { display: grid; grid-template-columns: 248px minmax(0, 1fr); gap: 24px; align-items: start; padding-bottom: 60px; }
+.layout { display: grid; grid-template-columns: 268px minmax(0, 1fr); gap: 24px; align-items: start; padding-bottom: 60px; }
 dialog.rail {
   display: block; position: sticky; top: calc(var(--bar-h) + 12px); margin: 0; padding: 0; width: auto; max-width: none;
   max-height: calc(100vh - var(--bar-h) - 24px); overflow-y: auto;
@@ -229,13 +229,13 @@ dialog.rail {
 /* float lyfter ut legend från ramen, annars hamnar rubriken ovanpå linjen */
 .fset legend { float: left; width: 100%; padding: 0 0 8px; }
 .fset legend + * { clear: both; }
-.seg { display: flex; background: var(--surface-2); border-radius: 6px; padding: 2px; gap: 2px; }
+.seg { display: flex; background: var(--surface-2); border-radius: 7px; padding: 3px; gap: 4px; }
 .seg button {
   flex: 1; background: none; border: 0; border-radius: 5px; padding: 6px 8px;
   font-size: 14px; color: var(--ink-2); white-space: nowrap;
 }
 .seg button[aria-pressed="true"] { background: var(--ink); color: var(--bg); font-weight: 600; }
-.chips { display: flex; flex-wrap: wrap; gap: 5px; }
+.chips { display: flex; flex-wrap: wrap; gap: 6px; }
 .chips button {
   background: var(--surface-2); border: 1px solid transparent; border-radius: 20px;
   padding: 4px 10px; font-size: 13px; color: var(--ink);
@@ -254,14 +254,22 @@ input[type="search"], select, textarea {
 .rh-title h2 { font-size: 22px; }
 @media (max-width: 560px) { .rh-title h2 { font-size: 19px; } .rh-title .sub { font-size: 13px; } .rh-tools .seg { flex: 1 1 auto; } }
 .rh-title .sub { font-size: 14px; color: var(--ink-2); }
-.rh-tools { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin-top: 10px; }
-.rh-tools input[type="search"] { flex: 1 1 220px; width: auto; min-width: 0; height: 40px; }
+.rh-tools { display: flex; flex-wrap: wrap; gap: 10px 12px; align-items: center; margin-top: 12px; }
+/* Alla kontroller i verktygsraden har samma höjd. */
+.rh-tools input[type="search"], .rh-tools .seg, .rh-tools .ghost, .rh-tools select { height: 40px; }
+.rh-tools .seg button { padding: 0 14px; }
+.rh-tools input[type="search"] { flex: 1 1 180px; width: auto; min-width: 0; padding: 0 12px; }
 .rh-tools .seg { flex: 0 1 auto; }
-.sortval { display: flex; flex-wrap: wrap; gap: 8px; }
-.rail-in > .sortval { justify-content: space-between; padding: 12px 0 2px; }
+.sortval { display: flex; flex-wrap: wrap; gap: 10px 12px; }
+.rail-in > .sortval { justify-content: space-between; padding: 8px 0 14px; border-bottom: 1px solid var(--line); }
 .rail-in > .sortval .sort { flex: 1 1 100%; justify-content: space-between; }
-.sort { display: flex; align-items: center; gap: 6px; font-size: 14px; color: var(--ink-2); }
-.sort select { width: auto; padding: 7px 8px; font-size: 14px; }
+.sort { position: relative; display: flex; align-items: center; gap: 8px; font-size: 14px; color: var(--ink-2); }
+/* Egen pil: webbläsarens egen går inte att flytta in från kanten. */
+.sort select { width: auto; padding: 0 34px 0 12px; font-size: 14px; appearance: none; -webkit-appearance: none; }
+.sort::after {
+  content: ""; position: absolute; right: 14px; top: 50%; width: 7px; height: 7px; pointer-events: none;
+  border-right: 1.5px solid var(--ink-2); border-bottom: 1.5px solid var(--ink-2); transform: translateY(-70%) rotate(45deg);
+}
 
 /* En enda rutnätsmall för rubrikraden och alla rader, så att spalterna hänger ihop. */
 .rows-head, .row { grid-template-columns: 26px minmax(0, 1fr) 76px 118px 54px 54px 56px 58px; column-gap: 12px; }
@@ -603,14 +611,16 @@ footer.foot p { margin: 0 0 5px; max-width: 78ch; }
 .lankruta { border-color: var(--accent); }
 /* Pekskärm: tåliga tryckytor utan att ändra den täta layouten för mus. */
 @media (pointer: coarse), (max-width: 760px) {
-  nav.tabs button, .ghost, .primary, .seg button, .gbtns button, .fkort .add, .sort select,
+  nav.tabs button, .ghost, .primary, .gbtns button, .fkort .add,
+  .rail-in .seg button,
   .pick-acts button, .oh-acts button { min-height: 44px; }
   .pick-acts button, .oh-acts button { min-width: 44px; font-size: 15px; }
   .textknapp { padding: 10px 0; margin: -10px 0; }
   .chips button { min-height: 36px; }
   .clearall { padding: 8px 4px; margin: -8px 0; }
   /* Större tryckyta, men stjärnan ligger kvar på samma plats i raden. */
-  .rh-tools input[type="search"] { height: 44px; }
+  .rh-tools input[type="search"], .rh-tools .seg, .rh-tools .ghost, .rh-tools select { height: 44px; }
+  .rail-in .sort select { height: 44px; }
   .star { width: 44px; height: 44px; margin: -9px; display: inline-flex; align-items: center; justify-content: center; }
 }
 @media (max-width: 620px) {
@@ -709,7 +719,7 @@ footer.foot p { margin: 0 0 5px; max-width: 78ch; }
             <span class="sub" id="resSub"></span>
           </div>
           <div class="rh-tools">
-            <input type="search" id="q" placeholder="Sök skola, program eller inriktning" aria-label="Sök på skola, program eller inriktning">
+            <input type="search" id="q" placeholder="Sök skola eller program" aria-label="Sök på skola, program eller inriktning">
             <div class="seg" id="segChance" role="group" aria-label="Vilka utbildningar som visas">
               <button type="button" data-v="near" aria-pressed="true">Nära mig</button>
               <button type="button" data-v="reach" aria-pressed="false">Räcker</button>
@@ -2247,8 +2257,8 @@ filterSheet.addEventListener('click', (ev) => { if (ev.target === filterSheet) f
 const storSkarm = matchMedia('(min-width: 941px)');
 // På små skärmar flyttar sortering och visning in i filterarket, så att raderna kommer högre upp.
 function placeraSortval() {
-  const hem = storSkarm.matches ? document.querySelector('.rh-tools') : document.querySelector('.rail-in');
-  if (el('sortval').parentElement !== hem) hem.append(el('sortval'));
+  if (storSkarm.matches) document.querySelector('.rh-tools').append(el('sortval'));
+  else document.querySelector('.rail-in').prepend(el('sortval'));
 }
 storSkarm.addEventListener('change', () => {
   if (storSkarm.matches && filterSheet.open) filterSheet.close();
