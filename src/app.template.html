@@ -2307,7 +2307,6 @@ document.querySelector('nav.tabs').addEventListener('keydown', (ev) => {
   showTab(TABS[mal]);
   el(TABS[mal]).focus();
 });
-for (const t of TABS) el(el(t).getAttribute('aria-controls')).tabIndex = 0;
 
 let breddTimer = 0;
 let senasteBredd = window.innerWidth;
