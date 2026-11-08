@@ -84,9 +84,11 @@ Ingen av dem finns i antagningsdatan:
   websökning som fallback. Klistrar man in skolans riktiga adress i fältet på
   valet i Vallistan används den i stället, överallt i appen. Inmatade adresser
   saneras i `stadaUrl()`: bara `http(s)` släpps igenom, bar domän får `https://`.
-- **Öppet hus.** Varje skola publicerar sina egna datum, det finns ingen central
-  källa. Datumen matas in i fliken Öppet hus och delas via `db`. De visas som
-  märke på skolans rader i chanslistan och i vallistan.
+- **Öppet hus.** Det finns inget flöde att prenumerera på. Fliken Öppet hus länkar
+  till [Gymnasiemässans lista](https://gymnasiemassan.nu/oppet-hus/) och
+  [Stockholms stads kalender](https://gymnasieskola.stockholm/aktuellt/?t=event),
+  och datumen matas in för hand. De visas som märke på skolans rader i chanslistan
+  och i vallistan.
 - **Gymnasiemässan** ligger hårdkodad i `MASSAN` i mallen: 17–19 november 2026,
   Stockholmsmässan i Älvsjö. Behöver bytas för nästa år.
 
