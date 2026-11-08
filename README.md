@@ -64,6 +64,16 @@ kolumnnamn och klarar båda varianterna.
   [viktiga datum](https://gymnasieantagningen.storsthlm.se/viktiga-datum). Texten
   ovanför tidplanen anger hämtdatumet: uppdatera båda vid nästa genomgång.
 
+## Formgivning
+
+Gult (`--hl`) betyder alltid "det här är ditt": meritvärdet, linjen i listan, valda
+utbildningar och var du är i tidplanen. Använd det inte till något annat. Färger och
+typsnitt ligger som variabler högst upp i mallen, med Familjen Grotesk för rubriker
+och Atkinson Hyperlegible Next för brödtext och siffror.
+
+Listan under Chansen delas av `delaRuntLinjen()`. Utbildningar utan jämförbar gräns
+("alla in" och färdighetsprov) får egna avsnitt, eftersom de saknar plats på linjen.
+
 ## Skollänkar och öppet hus
 
 Ingen av dem finns i antagningsdatan:

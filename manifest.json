@@ -5,8 +5,8 @@
   "start_url": "/gymnasiekollen/",
   "scope": "/gymnasiekollen/",
   "display": "standalone",
-  "background_color": "#edf0f2",
-  "theme_color": "#17527d",
+  "background_color": "#f4f6f8",
+  "theme_color": "#1d2a78",
   "icons": [
     {
       "src": "icon-192.png",
