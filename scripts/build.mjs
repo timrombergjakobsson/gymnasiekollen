@@ -27,7 +27,7 @@ const html = `<!DOCTYPE html>
   <title>${titleMatch?.[1] ?? 'Gymnasiekollen'}</title>
   <meta name="description" content="Jämför gymnasieskolor och se dina chanser baserat på meritvärde">
   <meta name="theme-color" content="#f4f6f8" media="(prefers-color-scheme: light)">
-  <meta name="theme-color" content="#141a3a" media="(prefers-color-scheme: dark)">
+  <meta name="theme-color" content="#0f2238" media="(prefers-color-scheme: dark)">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <link rel="apple-touch-icon" href="icon-192.png">

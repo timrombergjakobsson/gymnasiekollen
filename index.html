@@ -6,7 +6,7 @@
   <title>Gymnasiekollen</title>
   <meta name="description" content="Jämför gymnasieskolor och se dina chanser baserat på meritvärde">
   <meta name="theme-color" content="#f4f6f8" media="(prefers-color-scheme: light)">
-  <meta name="theme-color" content="#141a3a" media="(prefers-color-scheme: dark)">
+  <meta name="theme-color" content="#0f2238" media="(prefers-color-scheme: dark)">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <link rel="apple-touch-icon" href="icon-192.png">
@@ -22,74 +22,74 @@
   --font-body: "Atkinson Hyperlegible Next", ui-sans-serif, system-ui, sans-serif;
   --bar-h: 69px;
   --hl: #ffe94a;
-  --hl-ink: #1d2a78;
+  --hl-ink: #123a7a;
   --bg: #f4f6f8;
   --surface: #ffffff;
-  --surface-2: #e9ecf4;
-  --surface-3: #dde2ee;
-  --line: #d5dae8;
-  --line-strong: #aeb6ce;
-  --ink: #1d2a78;
-  --ink-2: #3f4a8a;
-  --ink-3: #565f90;
-  --accent: #1d2a78;
-  --accent-soft: #e3e6f5;
+  --surface-2: #e7edf4;
+  --surface-3: #dae3ee;
+  --line: #d2dce8;
+  --line-strong: #a9b9cc;
+  --ink: #123a7a;
+  --ink-2: #2f5288;
+  --ink-3: #4a6690;
+  --accent: #123a7a;
+  --accent-soft: #e0e9f5;
   --accent-ink: #ffffff;
   --st-safe: #0f7a54;
   --st-likely: #4d7312;
   --st-border: #a65600;
   --st-tough: #b3263e;
-  --st-neutral: #565f90;
-  --bar: #c3c9e2;
-  --bar-hit: #4a57a8;
+  --st-neutral: #4a6690;
+  --bar: #bfd0e4;
+  --bar-hit: #3a6aa8;
   --shadow: none;
   --radius: 6px;
 }
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
     color-scheme: dark;
-    --bg: #141a3a;
-    --surface: #1b2248;
-    --surface-2: #232b57;
-    --surface-3: #2d3667;
-    --line: #323b6e;
-    --line-strong: #4c5690;
-    --ink: #eef0fb;
-    --ink-2: #c3c9e8;
-    --ink-3: #a3abd6;
-    --accent: #b4beff;
-    --accent-soft: #262f60;
-    --accent-ink: #141a3a;
+    --bg: #0f2238;
+    --surface: #152b45;
+    --surface-2: #1c3552;
+    --surface-3: #254262;
+    --line: #2a4565;
+    --line-strong: #466688;
+    --ink: #edf3fa;
+    --ink-2: #bfd2e6;
+    --ink-3: #9fb6cf;
+    --accent: #a9ccf5;
+    --accent-soft: #1e3a5a;
+    --accent-ink: #0f2238;
     --st-safe: #5fd3a2;
     --st-likely: #b4d76a;
     --st-border: #f0b35a;
     --st-tough: #f58e9c;
-    --st-neutral: #a3abd6;
-    --bar: #39427a;
-    --bar-hit: #9aa6f0;
+    --st-neutral: #9fb6cf;
+    --bar: #2f4c6e;
+    --bar-hit: #8fb6e6;
   }
 }
 :root[data-theme="dark"] {
   color-scheme: dark;
-  --bg: #141a3a;
-  --surface: #1b2248;
-  --surface-2: #232b57;
-  --surface-3: #2d3667;
-  --line: #323b6e;
-  --line-strong: #4c5690;
-  --ink: #eef0fb;
-  --ink-2: #c3c9e8;
-  --ink-3: #a3abd6;
-  --accent: #b4beff;
-  --accent-soft: #262f60;
-  --accent-ink: #141a3a;
+  --bg: #0f2238;
+  --surface: #152b45;
+  --surface-2: #1c3552;
+  --surface-3: #254262;
+  --line: #2a4565;
+  --line-strong: #466688;
+  --ink: #edf3fa;
+  --ink-2: #bfd2e6;
+  --ink-3: #9fb6cf;
+  --accent: #a9ccf5;
+  --accent-soft: #1e3a5a;
+  --accent-ink: #0f2238;
   --st-safe: #5fd3a2;
   --st-likely: #b4d76a;
   --st-border: #f0b35a;
   --st-tough: #f58e9c;
-  --st-neutral: #a3abd6;
-  --bar: #39427a;
-  --bar-hit: #9aa6f0;
+  --st-neutral: #9fb6cf;
+  --bar: #2f4c6e;
+  --bar-hit: #8fb6e6;
 }
 
 * { box-sizing: border-box; }
@@ -212,7 +212,7 @@ dialog.rail {
     position: fixed; inset: auto 0 0 0; width: 100%; max-height: 85dvh; display: flex; flex-direction: column;
     border-radius: 14px 14px 0 0; border-width: 1px 0 0;
   }
-  dialog.rail::backdrop { background: rgb(10 14 40 / .55); }
+  dialog.rail::backdrop { background: rgb(6 18 34 / .55); }
   .rail-in { overflow-y: auto; flex: 1; padding: 0 16px 16px; }
   .sheet-head { display: flex; align-items: center; justify-content: space-between; padding: 14px 16px 6px; }
   .sheet-head h2 { font-size: 20px; }
