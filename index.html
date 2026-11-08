@@ -752,7 +752,7 @@ footer.foot p { margin: 0 0 5px; max-width: 78ch; }
       <div class="card" style="grid-column: 1 / -1">
         <span class="eyebrow">Närmast i tiden</span>
         <h2 style="font-size:19px;margin:4px 0 8px">Öppet hus och mässor</h2>
-        <p class="prose" style="margin:0 0 14px">Skolorna lägger ut sina öppna hus var och en för sig, oftast i oktober och november, så det finns ingen central lista att hämta. Skriv in dem här i stället – de syns då som märke på skolans rader under Chansen. De sparas i den här webbläsaren och följer med när du delar listan från Vallistan.</p>
+        <p class="prose" style="margin:0 0 14px">Hitta datum i <a href="https://gymnasiemassan.nu/oppet-hus/" target="_blank" rel="noopener noreferrer">Gymnasiemässans lista över öppet hus</a> och, för Stockholms stads egna skolor, i <a href="https://gymnasieskola.stockholm/aktuellt/?t=event" target="_blank" rel="noopener noreferrer">stadens kalender</a>. Listorna kanske inte har alla skolor, så kolla också skolans egen webbplats. Skriv in dem du vill gå på här – de syns då som märke på skolans rader under Chansen. De sparas i den här webbläsaren och följer med när du delar listan från Vallistan.</p>
         <div class="agenda" id="agenda"></div>
       </div>
 
@@ -1543,7 +1543,7 @@ function renderAgenda() {
     .join('');
 
   el('agenda').innerHTML = allt + (poster.length ? '' :
-    `<div class="empty" style="margin-top:8px">Inga öppna hus inlagda än. Skolorna publicerar sina datum på sina egna webbplatser – hittar du ett, lägg in det nedan. Då syns det både här och som märke på skolans rader under Chansen.</div>`);
+    `<div class="empty" style="margin-top:8px">Inga öppna hus inlagda än. Hittar du ett datum i listorna ovan eller på skolans webbplats, lägg in det nedan. Då syns det både här och som märke på skolans rader under Chansen.</div>`);
 }
 
 function laggTillOppetHus() {
