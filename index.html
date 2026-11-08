@@ -26,7 +26,7 @@
   --line-strong: #b3c0c8;
   --ink: #101a20;
   --ink-2: #4f5f68;
-  --ink-3: #74858e;
+  --ink-3: #596971;
   --accent: #17527d;
   --accent-soft: #dce8f2;
   --accent-ink: #ffffff;
@@ -50,7 +50,7 @@
     --line-strong: #3d4f5a;
     --ink: #e7eef2;
     --ink-2: #9cb0ba;
-    --ink-3: #7b909b;
+    --ink-3: #8a9ea9;
     --accent: #74b6e8;
     --accent-soft: #1a2c3c;
     --accent-ink: #08121a;
@@ -73,7 +73,7 @@
   --line-strong: #3d4f5a;
   --ink: #e7eef2;
   --ink-2: #9cb0ba;
-  --ink-3: #7b909b;
+  --ink-3: #8a9ea9;
   --accent: #74b6e8;
   --accent-soft: #1a2c3c;
   --accent-ink: #08121a;
@@ -106,7 +106,7 @@ button { font: inherit; color: inherit; cursor: pointer; }
 :focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; border-radius: 4px; }
 .num { font-family: "IBM Plex Mono", ui-monospace, monospace; font-variant-numeric: tabular-nums; }
 .eyebrow {
-  font: 600 11px/1 "IBM Plex Sans", sans-serif;
+  font: 600 12px/1 "IBM Plex Sans", sans-serif;
   letter-spacing: .1em;
   text-transform: uppercase;
   color: var(--ink-3);
@@ -139,7 +139,7 @@ nav.tabs button {
 nav.tabs button[aria-selected="true"] { color: var(--ink); border-bottom-color: var(--accent); }
 nav.tabs button:hover { color: var(--ink); }
 nav.tabs .count {
-  font: 600 11px/1 "IBM Plex Mono", monospace; background: var(--surface-3); color: var(--ink-2);
+  font: 600 12px/1 "IBM Plex Mono", monospace; background: var(--surface-3); color: var(--ink-2);
   border-radius: 20px; padding: 3px 6px; margin-left: 6px;
 }
 
@@ -161,7 +161,7 @@ nav.tabs .count {
 .merit input[type="range"] { width: 100%; accent-color: var(--accent); }
 .merit label.lbl { font-size: 13px; color: var(--ink-2); }
 .tag {
-  display: inline-flex; align-items: center; gap: 5px; font-size: 11.5px; font-weight: 500;
+  display: inline-flex; align-items: center; gap: 5px; font-size: 12px; font-weight: 500;
   border: 1px solid var(--line-strong); border-radius: 20px; padding: 2px 9px; color: var(--ink-2);
 }
 .tag.example { border-color: var(--st-border); color: var(--st-border); }
@@ -187,9 +187,11 @@ aside.rail {
   padding: 6px 16px 16px; position: sticky; top: 12px;
 }
 @media (max-width: 940px) { aside.rail { position: static; } }
-.fset { border: 0; margin: 0; padding: 14px 0 0; border-top: 1px solid var(--line); }
-.fset:first-of-type { border-top: 0; }
-.fset legend { padding: 0 0 8px; }
+.fset { border: 0; margin: 14px 0 0; padding: 14px 0 0; border-top: 1px solid var(--line); min-width: 0; }
+.fset:first-of-type { border-top: 0; margin-top: 0; padding-top: 10px; }
+/* float lyfter ut legend från ramen, annars hamnar rubriken ovanpå linjen */
+.fset legend { float: left; width: 100%; padding: 0 0 8px; }
+.fset legend + * { clear: both; }
 .seg { display: flex; background: var(--surface-2); border-radius: 8px; padding: 2px; gap: 2px; }
 .seg button {
   flex: 1; background: none; border: 0; border-radius: 6px; padding: 6px 4px;
@@ -207,7 +209,7 @@ input[type="search"], select, textarea {
   width: 100%; font: inherit; font-size: 13.5px; padding: 8px 10px; color: var(--ink);
   background: var(--surface-2); border: 1px solid var(--line-strong); border-radius: 8px;
 }
-.clearall { background: none; border: 0; padding: 0; font-size: 12.5px; color: var(--accent); text-decoration: underline; }
+.clearall { background: none; border: 0; padding: 6px 4px; margin: -6px 0; font-size: 12.5px; color: var(--accent); text-decoration: underline; }
 
 /* ---------- resultatlista ---------- */
 .results { display: flex; flex-direction: column; gap: 10px; min-width: 0; }
@@ -225,10 +227,17 @@ input[type="search"], select, textarea {
 }
 .row:hover { border-color: var(--line-strong); }
 .row.is-pick { border-left: 3px solid var(--accent); padding-left: 6px; }
-@media (max-width: 760px) {
-  .row { grid-template-columns: 26px 1fr; grid-template-areas: "star main" ". stats" ". chance"; row-gap: 8px; }
+/* Styrs av listans bredd, inte skärmens: filterspalten tar plats på mellanstora skärmar. */
+.results { container-type: inline-size; }
+@container (max-width: 840px) {
+  .row { grid-template-columns: 26px minmax(0, 1fr); grid-template-areas: "star main" ". stats" ". chance"; row-gap: 8px; }
   .row .r-star { grid-area: star; } .row .r-main { grid-area: main; }
-  .row .r-stats { grid-area: stats; } .row .r-chance { grid-area: chance; justify-self: start; }
+  .row .r-stats { grid-area: stats; justify-content: start; }
+  .row .r-stats div { align-items: flex-start; }
+  .row .r-chance { grid-area: chance; justify-self: start; flex-direction: row; align-items: center; gap: 8px; }
+}
+@container (max-width: 470px) {
+  .row .r-stats { grid-template-columns: repeat(2, minmax(0, 1fr)); row-gap: 8px; width: 100%; }
 }
 .star {
   background: none; border: 0; padding: 3px; line-height: 0; color: var(--ink-3); border-radius: 6px;
@@ -239,13 +248,14 @@ input[type="search"], select, textarea {
 .r-main { min-width: 0; display: flex; flex-direction: column; gap: 2px; }
 .r-main .school { font-weight: 600; font-size: 14.5px; }
 .r-main .prog { font-size: 13.5px; color: var(--ink-2); }
-.r-main .meta { font-size: 11.5px; color: var(--ink-3); display: flex; gap: 6px; flex-wrap: wrap; }
+.r-main .meta { font-size: 12px; color: var(--ink-3); display: flex; gap: 6px; flex-wrap: wrap; }
 .r-main .meta .pill {
   border: 1px solid var(--line); border-radius: 4px; padding: 0 5px; font-weight: 500;
 }
-.r-stats { display: flex; gap: 14px; font-size: 12px; }
-.r-stats div { display: flex; flex-direction: column; gap: 1px; align-items: flex-end; }
-.r-stats .k { font-size: 9.5px; letter-spacing: .05em; text-transform: uppercase; color: var(--ink-3); white-space: nowrap; }
+/* Fasta spaltbredder, så att siffrorna står rakt under varandra från rad till rad. */
+.r-stats { display: grid; grid-template-columns: 70px 104px 52px 54px; gap: 14px; font-size: 12px; }
+.r-stats div { display: flex; flex-direction: column; gap: 1px; align-items: flex-end; min-width: 0; }
+.r-stats .k { font-size: 12px; color: var(--ink-3); white-space: nowrap; }
 .r-stats .v { white-space: nowrap; }
 .r-stats .v { font-family: "IBM Plex Mono", monospace; font-variant-numeric: tabular-nums; font-size: 13px; font-weight: 500; }
 .r-stats .v.dim { color: var(--ink-3); font-weight: 400; }
@@ -259,7 +269,7 @@ input[type="search"], select, textarea {
 .badge .ico { font-family: "IBM Plex Mono", monospace; color: var(--st); font-weight: 600; }
 .badge.safe { --st: var(--st-safe); } .badge.likely { --st: var(--st-likely); }
 .badge.border { --st: var(--st-border); } .badge.tough { --st: var(--st-tough); }
-.margin { font-family: "IBM Plex Mono", monospace; font-size: 11.5px; color: var(--ink-3); padding-left: 3px; }
+.margin { font-family: "IBM Plex Mono", monospace; font-size: 12px; color: var(--ink-3); padding-left: 3px; }
 .more { align-self: center; margin-top: 6px; }
 .empty {
   background: var(--surface); border: 1px dashed var(--line-strong); border-radius: var(--radius);
@@ -300,14 +310,14 @@ input[type="search"], select, textarea {
 }
 .grade-row:nth-child(odd) { background: var(--surface-2); }
 .grade-row .gn { font-size: 13.5px; }
-.grade-row .gn small { display: block; color: var(--ink-3); font-size: 11px; }
+.grade-row .gn small { display: block; color: var(--ink-3); font-size: 12px; }
 .gbtns { display: flex; gap: 3px; }
 .gbtns button {
   width: 30px; height: 28px; border-radius: 6px; border: 1px solid var(--line-strong);
   background: var(--surface); font-family: "IBM Plex Mono", monospace; font-size: 13px; color: var(--ink-2);
 }
 .gbtns button[aria-pressed="true"] { background: var(--accent); border-color: var(--accent); color: var(--accent-ink); font-weight: 600; }
-.gbtns button.f[aria-pressed="true"] { background: var(--st-tough); border-color: var(--st-tough); color: #fff; }
+.gbtns button.f[aria-pressed="true"] { background: var(--st-tough); border-color: var(--st-tough); color: var(--accent-ink); }
 .gbtns button.none { color: var(--ink-3); }
 .gbtns button.none[aria-pressed="true"] { background: var(--surface-3); border-color: var(--line-strong); color: var(--ink-2); }
 @media (max-width: 620px) {
@@ -355,7 +365,7 @@ input[type="search"], select, textarea {
 .tally .t.safe { --st: var(--st-safe); } .tally .t.likely { --st: var(--st-likely); }
 .tally .t.border { --st: var(--st-border); } .tally .t.tough { --st: var(--st-tough); }
 .tally .t .n { font-family: "IBM Plex Mono", monospace; font-size: 22px; font-weight: 600; line-height: 1.1; }
-.tally .t .l { font-size: 11.5px; color: var(--ink-2); }
+.tally .t .l { font-size: 12px; color: var(--ink-2); }
 
 /* dela listan */
 .dela { display: flex; flex-direction: column; gap: 12px; }
@@ -371,7 +381,7 @@ input[type="search"], select, textarea {
 .dela-msg.fel { color: var(--st-tough); }
 .dela-msg.ok { color: var(--st-safe); }
 .dela textarea {
-  font-family: "IBM Plex Mono", monospace; font-size: 11.5px; line-height: 1.4;
+  font-family: "IBM Plex Mono", monospace; font-size: 12px; line-height: 1.4;
   word-break: break-all; resize: vertical;
 }
 .dela hr { border: 0; border-top: 1px solid var(--line); margin: 4px 0; }
@@ -381,7 +391,7 @@ input[type="search"], select, textarea {
   color: inherit; text-decoration: none; display: inline-flex; align-items: baseline; gap: 4px;
 }
 .school a:hover { color: var(--accent); text-decoration: underline; text-underline-offset: 2px; }
-.school a .ext { font-size: 10px; color: var(--ink-3); }
+.school a .ext { font-size: 12px; color: var(--ink-3); }
 .school a:hover .ext { color: var(--accent); }
 .pill.oh { border-color: var(--accent); color: var(--accent); }
 
@@ -392,10 +402,10 @@ input[type="search"], select, textarea {
   border: 1px solid var(--line); border-radius: 9px; padding: 10px 12px; background: var(--surface);
 }
 .oh-row.massa { border-color: var(--accent); background: var(--accent-soft); }
-.oh-row.forbi { opacity: .5; }
+.oh-row.forbi .d, .oh-row.forbi .n, .oh-row.forbi .t { color: var(--ink-3); font-weight: 400; }
 .oh-when { display: flex; flex-direction: column; gap: 1px; }
 .oh-when .d { font-family: "IBM Plex Mono", monospace; font-size: 13.5px; font-weight: 500; }
-.oh-when .rel { font-size: 11px; color: var(--ink-3); }
+.oh-when .rel { font-size: 12px; color: var(--ink-3); }
 .oh-row.massa .oh-when .rel { color: var(--accent); }
 .oh-what { min-width: 0; display: flex; flex-direction: column; gap: 1px; }
 .oh-what .n { font-weight: 600; font-size: 14px; }
@@ -404,7 +414,7 @@ input[type="search"], select, textarea {
 .oh-acts a { font-size: 12px; white-space: nowrap; }
 .oh-acts button {
   width: 26px; height: 24px; border: 1px solid var(--line-strong); background: var(--surface-2);
-  border-radius: 6px; font-size: 11px; color: var(--ink-2); line-height: 1;
+  border-radius: 6px; font-size: 12px; color: var(--ink-2); line-height: 1;
 }
 .oh-acts button:hover { border-color: var(--st-tough); color: var(--st-tough); }
 @media (max-width: 640px) {
@@ -516,13 +526,13 @@ figure.trappa svg { display: block; width: 100%; height: auto; overflow: visible
 .vadom-extra .unlock { color: var(--st-safe); font-weight: 500; }
 .vadom-extra .behov { color: var(--st-border); font-weight: 500; }
 .vadom-empty { font-size: 13px; color: var(--ink-3); padding: 8px 0; }
-.tl-past { opacity: 0.45; }
+.tl-past .tl-when, .tl-past h3, .tl-past p { color: var(--ink-3); font-weight: 400; }
 .tl-past .tl-mark i { background: var(--line-strong) !important; border-color: var(--line-strong) !important; }
 .tl-active { background: color-mix(in oklab, var(--accent) 10%, transparent); border-radius: 8px; padding: 2px 8px; margin: -2px -8px; }
 .tl-active .tl-mark i { background: var(--st-safe) !important; border-color: var(--st-safe) !important; box-shadow: 0 0 0 3px color-mix(in oklab, var(--st-safe) 25%, transparent); }
 .tl-next .tl-mark i { box-shadow: 0 0 0 3px color-mix(in oklab, var(--accent) 25%, transparent); }
-.tl-badge { display: inline-block; font-size: 11px; font-weight: 600; padding: 2px 8px; border-radius: 99px; margin-left: 8px; vertical-align: middle; }
-.tl-badge-now { background: var(--st-safe); color: #fff; }
+.tl-badge { display: inline-block; font-size: 12px; font-weight: 600; padding: 2px 8px; border-radius: 99px; margin-left: 8px; vertical-align: middle; }
+.tl-badge-now { background: var(--st-safe); color: var(--accent-ink); }
 .tl-badge-soon { background: var(--accent-soft); color: var(--accent); }
 .note {
   border-left: 3px solid var(--st-border); background: color-mix(in oklab, var(--st-border) 8%, transparent);
@@ -533,6 +543,22 @@ footer.foot {
   border-top: 1px solid var(--line); padding: 18px 0 34px; font-size: 12.5px; color: var(--ink-3);
 }
 footer.foot p { margin: 0 0 5px; max-width: 78ch; }
+.lankruta { border-color: var(--accent); }
+/* Pekskärm: tåliga tryckytor utan att ändra den täta layouten för mus. */
+@media (pointer: coarse), (max-width: 760px) {
+  nav.tabs button, .ghost, .primary, .seg button, .gbtns button, .fkort .add,
+  .pick-acts button, .oh-acts button { min-height: 44px; }
+  .pick-acts button, .oh-acts button { min-width: 44px; font-size: 15px; }
+  .chips button { min-height: 36px; }
+  .clearall { padding: 8px 4px; margin: -8px 0; }
+  /* Större tryckyta, men stjärnan ligger kvar på samma plats i raden. */
+  .star { width: 44px; height: 44px; margin: -9px; display: inline-flex; align-items: center; justify-content: center; }
+}
+@media (max-width: 620px) {
+  .pick { grid-template-columns: 34px minmax(0, 1fr); }
+  .pick > .badge { grid-column: 2; justify-self: start; }
+  .pick-acts { grid-column: 1 / -1; justify-content: flex-end; }
+}
 @media (prefers-reduced-motion: reduce) { * { transition: none !important; animation: none !important; } }
 </style>
 </head>
@@ -654,6 +680,14 @@ footer.foot p { margin: 0 0 5px; max-width: 78ch; }
   <!-- ============ VALLISTAN ============ -->
   <div role="tabpanel" id="p-lista" aria-labelledby="tab-lista" hidden>
     <div class="cols" style="margin-top:20px">
+      <div class="card lankruta" id="lankRuta" style="grid-column: 1 / -1" role="region" aria-labelledby="lankRubrik" hidden>
+        <h2 id="lankRubrik" style="font-size:19px;margin:0 0 6px">Någon har delat en vallista med dig</h2>
+        <p class="prose" id="lankText" role="status" style="margin:0 0 14px"></p>
+        <div class="dela-rad">
+          <button type="button" class="primary" id="lankOppna" hidden>Öppna listan</button>
+          <button type="button" class="ghost" id="lankAvbryt">Behåll det jag har</button>
+        </div>
+      </div>
       <div class="card" style="grid-column: 1 / -1">
         <span class="eyebrow">Din vallista</span>
         <h2 style="font-size:19px;margin:4px 0 8px">Rangordna upp till 30 val</h2>
@@ -688,15 +722,16 @@ footer.foot p { margin: 0 0 5px; max-width: 78ch; }
       <div class="card" style="grid-column: 1 / -1">
         <span class="eyebrow">Dela och spara</span>
         <h2 style="font-size:19px;margin:4px 0 8px">Skicka listan vidare</h2>
-        <p class="prose" style="margin:0 0 4px">Appen sparar i den här webbläsaren, så listan följer inte med av sig själv till en annan telefon eller dator. Kopiera i stället en kod och skicka den — den som får den klistrar in den här nedanför.</p>
-        <p class="prose" style="margin:0 0 14px"><b>Koden är också din backup.</b> Rensad webbläsardata eller ny telefon nollställer allt som är sparat lokalt. Spara koden i en anteckning eller skicka den till dig själv, så finns allt kvar.</p>
+        <p class="prose" style="margin:0 0 4px">Appen sparar i den här webbläsaren, så listan följer inte med av sig själv till en annan telefon eller dator. Dela en länk i stället – den som öppnar den får frågan om listan ska läsas in.</p>
+        <p class="prose" style="margin:0 0 14px"><b>Länken är också din backup.</b> Rensad webbläsardata eller ny telefon nollställer allt som är sparat lokalt. Skicka länken till dig själv, så finns allt kvar. Den visar läget just när du delade.</p>
         <div class="dela">
           <label class="kryss"><input type="checkbox" id="delaBetyg"> Ta med de enskilda betygen, inte bara meritvärdet</label>
           <div class="dela-rad">
-            <button type="button" class="primary" id="kopieraKod">Kopiera kod</button>
-            <span class="dela-msg" id="delaMsg"></span>
+            <button type="button" class="primary" id="delaLank">Dela länk</button>
+            <button type="button" class="ghost" id="kopieraKod">Kopiera kod</button>
+            <span class="dela-msg" id="delaMsg" role="status"></span>
           </div>
-          <textarea id="kodUt" rows="3" readonly hidden aria-label="Kod att kopiera"></textarea>
+          <textarea id="kodUt" rows="3" readonly hidden aria-label="Länk eller kod att kopiera"></textarea>
           <hr>
           <label style="display:flex;flex-direction:column;gap:5px">
             <span class="eyebrow">Öppna en kod du fått</span>
@@ -704,7 +739,7 @@ footer.foot p { margin: 0 0 5px; max-width: 78ch; }
           </label>
           <div class="dela-rad">
             <button type="button" class="ghost" id="oppnaKod">Öppna koden</button>
-            <span class="dela-msg" id="kodInMsg"></span>
+            <span class="dela-msg" id="kodInMsg" role="status"></span>
           </div>
         </div>
       </div>
@@ -717,7 +752,7 @@ footer.foot p { margin: 0 0 5px; max-width: 78ch; }
       <div class="card" style="grid-column: 1 / -1">
         <span class="eyebrow">Närmast i tiden</span>
         <h2 style="font-size:19px;margin:4px 0 8px">Öppet hus och mässor</h2>
-        <p class="prose" style="margin:0 0 14px">Skolorna lägger ut sina öppna hus var och en för sig, oftast i oktober och november, så det finns ingen central lista att hämta. Skriv in dem här i stället – de syns då som märke på skolans rader under Chansen, och delas mellan era enheter.</p>
+        <p class="prose" style="margin:0 0 14px">Skolorna lägger ut sina öppna hus var och en för sig, oftast i oktober och november, så det finns ingen central lista att hämta. Skriv in dem här i stället – de syns då som märke på skolans rader under Chansen. De sparas i den här webbläsaren och följer med när du delar listan från Vallistan.</p>
         <div class="agenda" id="agenda"></div>
       </div>
 
@@ -815,7 +850,7 @@ footer.foot p { margin: 0 0 5px; max-width: 78ch; }
       <div class="card">
         <span class="eyebrow">Tidplan</span>
         <h2 style="font-size:19px;margin:4px 0 10px">Gymnasievalet steg för steg</h2>
-        <div class="note" style="margin-bottom:16px"><b>Datumen nedan är 2026-omgångens.</b> Exakta datum för antagningen 2027 publiceras av Gymnasieantagningen under hösten 2026 – mönstret är detsamma varje år, men stäm av dagarna på <a href="https://gymnasieantagningen.storsthlm.se/viktiga-datum" target="_blank" rel="noopener">viktiga datum</a> när de kommer.</div>
+        <p class="prose" style="margin:0 0 16px">Datumen gäller antagningen 2027 och hämtades 8 november 2026 från Gymnasieantagningens <a href="https://gymnasieantagningen.storsthlm.se/viktiga-datum" target="_blank" rel="noopener">viktiga datum</a>. Dubbelkolla där inför en deadline.</p>
         <div class="tl" id="timeline"></div>
       </div>
       <div style="display:flex;flex-direction:column;gap:18px">
@@ -926,7 +961,7 @@ function stadaUrl(v) {
   if (/^[\w.-]+\.[a-z]{2,}(\/|$)/i.test(t)) return `https://${t}`;
   return '';
 }
-const skolUrl = (sk) => state.hemsidor[skolnyckel(sk)] || sokUrl(`${sk.namn} gymnasium ${sk.kommun}`);
+const skolUrl = (sk) => stadaUrl(state.hemsidor[skolnyckel(sk)]) || sokUrl(`${sk.namn} gymnasium ${sk.kommun}`);
 const skolLank = (sk) => `<a href="${esc(skolUrl(sk))}" target="_blank" rel="noopener noreferrer"`
   + ` title="${state.hemsidor[skolnyckel(sk)] ? 'Skolans hemsida' : 'Sök upp skolan på webben'}">`
   + `${esc(sk.namn)}<span class="ext" aria-hidden="true">↗</span></a>`;
@@ -1213,7 +1248,10 @@ function renderRows() {
 /* histogram: fördelningen i urvalet oavsett chansfilter, med meritvärdet utmärkt */
 function renderDist(list) {
   const svg = el('dist');
-  const W = 600, H = 118, L = 6, R = 6, T = 16, B = 26;
+  // Ritas i skärmens pixlar, så att texten är lika stor på telefon som på dator.
+  const W = Math.max(200, Math.round(svg.getBoundingClientRect().width) || 600);
+  const H = Math.round(Math.max(110, Math.min(160, W * 0.2))), L = 6, R = 6, T = 18, B = 26;
+  svg.setAttribute('viewBox', `0 0 ${W} ${H}`);
   const lo = 100, hi = 340, step = 20;
   const buckets = Array.from({ length: (hi - lo) / step }, (_, i) => ({ from: lo + i * step, to: lo + (i + 1) * step, n: 0 }));
   let utanfor = 0;
@@ -1233,12 +1271,12 @@ function renderDist(list) {
     return `<rect class="bkt" data-i="${i}" x="${(x(b.from) + 1).toFixed(1)}" y="${(H - B - bh).toFixed(1)}" width="${(bw - 2).toFixed(1)}" height="${Math.max(bh, b.n ? 1.5 : 0).toFixed(1)}" rx="3" fill="var(--bar)" opacity="${b.n ? 0.9 : 0}"></rect>`;
   }).join('');
   const ticks = [100, 160, 220, 280, 340].map((v) =>
-    `<text x="${x(v).toFixed(1)}" y="${H - 9}" fill="var(--ink-3)" font-size="10" font-family="IBM Plex Mono, monospace" text-anchor="middle">${v}</text>`).join('');
+    `<text x="${x(v).toFixed(1)}" y="${H - 9}" fill="var(--ink-3)" font-size="12" font-family="IBM Plex Mono, monospace" text-anchor="middle">${v}</text>`).join('');
   const mx = x(Math.min(hi, Math.max(lo, state.merit)));
   const anchor = mx > W - 70 ? 'end' : mx < 46 ? 'start' : 'middle';
   const marker = `
     <line x1="${mx.toFixed(1)}" x2="${mx.toFixed(1)}" y1="${T - 6}" y2="${H - B + 4}" stroke="var(--accent)" stroke-width="2"></line>
-    <text x="${mx.toFixed(1)}" y="${T - 10}" fill="var(--accent)" font-size="11" font-weight="600" font-family="IBM Plex Mono, monospace" text-anchor="${anchor}">${pt(state.merit)}</text>`;
+    <text x="${mx.toFixed(1)}" y="${T - 10}" fill="var(--accent)" font-size="12" font-weight="600" font-family="IBM Plex Mono, monospace" text-anchor="${anchor}">${pt(state.merit)}</text>`;
   svg.innerHTML = `<title id="distTitle">Fördelning av antagningsgränser 2026 i urvalet, jämfört med meritvärdet ${pt(state.merit)}</title>
     <line x1="${L}" x2="${W - R}" y1="${H - B}" y2="${H - B}" stroke="var(--line-strong)" stroke-width="1"></line>
     ${bars}${ticks}${marker}`;
@@ -1424,8 +1462,8 @@ function sakraForslag(items) {
 /* trappan: antagningsgräns per val, i vallistans ordning */
 function renderTrappa(items) {
   const svg = el('trappa');
-  const rowH = 22, T = 20, B = 26, L = 30, R = 46;
-  const W = 620, H = T + items.length * rowH + B;
+  const rowH = 22, T = 20, B = 26, L = 30, R = 58;
+  const W = Math.max(200, Math.round(svg.getBoundingClientRect().width) || 620), H = T + items.length * rowH + B;
   svg.setAttribute('viewBox', `0 0 ${W} ${H}`);
   const x = (v) => L + (Math.max(0, Math.min(340, v)) / 340) * (W - L - R);
 
@@ -1433,25 +1471,25 @@ function renderTrappa(items) {
     const b = bedom(e, state.merit);
     const y = T + i * rowH + rowH / 2;
     const st = { safe: 'var(--st-safe)', open: 'var(--st-safe)', likely: 'var(--st-likely)', border: 'var(--st-border)', tough: 'var(--st-tough)', far: 'var(--st-tough)' }[b.k] || 'var(--ink-3)';
-    const rank = `<text x="${L - 10}" y="${y + 4}" fill="var(--ink-3)" font-size="11" font-family="IBM Plex Mono, monospace" text-anchor="end">${i + 1}</text>`;
+    const rank = `<text x="${L - 10}" y="${y + 4}" fill="var(--ink-3)" font-size="12" font-family="IBM Plex Mono, monospace" text-anchor="end">${i + 1}</text>`;
     if (e.prov || e.ref == null) {
       return `${rank}<g class="tr" data-i="${i}"><line x1="${L}" x2="${W - R}" y1="${y}" y2="${y}" stroke="var(--line)" stroke-width="1" stroke-dasharray="3 3"></line>
-        <text x="${W - R + 7}" y="${y + 4}" fill="var(--ink-3)" font-size="10.5" font-family="IBM Plex Mono, monospace">prov</text></g>`;
+        <text x="${W - R + 7}" y="${y + 4}" fill="var(--ink-3)" font-size="12" font-family="IBM Plex Mono, monospace">prov</text></g>`;
     }
     const xe = x(e.ref);
     return `${rank}<g class="tr" data-i="${i}">
       <rect x="${L}" y="${(y - 5).toFixed(1)}" width="${Math.max(2, xe - L).toFixed(1)}" height="10" rx="4" fill="var(--bar)" opacity="0.85"></rect>
       <circle cx="${xe.toFixed(1)}" cy="${y}" r="5" fill="${st}" stroke="var(--surface)" stroke-width="2"></circle>
-      <text x="${W - R + 7}" y="${y + 4}" fill="var(--ink-2)" font-size="10.5" font-family="IBM Plex Mono, monospace">${e.oppet ? 'alla in' : pt(e.ref)}</text></g>`;
+      <text x="${W - R + 7}" y="${y + 4}" fill="var(--ink-2)" font-size="12" font-family="IBM Plex Mono, monospace">${e.oppet ? 'alla in' : pt(e.ref)}</text></g>`;
   }).join('');
 
   const mx = x(state.merit);
   const ticks = [0, 85, 170, 255, 340].map((v) =>
-    `<text x="${x(v).toFixed(1)}" y="${H - 8}" fill="var(--ink-3)" font-size="10" font-family="IBM Plex Mono, monospace" text-anchor="middle">${v}</text>`).join('');
+    `<text x="${x(v).toFixed(1)}" y="${H - 8}" fill="var(--ink-3)" font-size="12" font-family="IBM Plex Mono, monospace" text-anchor="middle">${v}</text>`).join('');
   svg.innerHTML = `<title id="trappaTitle">Antagningsgräns 2026 för varje val i vallistan, jämfört med meritvärdet ${pt(state.merit)}</title>
     <line x1="${L}" x2="${W - R}" y1="${H - B + 2}" y2="${H - B + 2}" stroke="var(--line)" stroke-width="1"></line>
     <line x1="${mx.toFixed(1)}" x2="${mx.toFixed(1)}" y1="${T - 12}" y2="${H - B + 6}" stroke="var(--accent)" stroke-width="2"></line>
-    <text x="${mx.toFixed(1)}" y="${T - 16}" fill="var(--accent)" font-size="11" font-weight="600" font-family="IBM Plex Mono, monospace" text-anchor="${mx > W - 90 ? 'end' : 'middle'}">${pt(state.merit)}</text>
+    <text x="${mx.toFixed(1)}" y="${T - 16}" fill="var(--accent)" font-size="12" font-weight="600" font-family="IBM Plex Mono, monospace" text-anchor="${mx > W - 90 ? 'end' : 'middle'}">${pt(state.merit)}</text>
     ${rader}${ticks}`;
 
   const tip = el('trappaTip');
@@ -1483,7 +1521,7 @@ function renderAgenda() {
   const massaForbi = MASSAN.till < IDAG;
   const massaRad = `<div class="oh-row massa${massaForbi ? ' forbi' : ''}">
     <span class="oh-when"><span class="d">17–19 nov</span><span class="rel">${esc(relativt(MASSAN.fran))}</span></span>
-    <span class="oh-what"><span class="n">${esc(MASSAN.namn)} 2026</span><span class="t">${esc(MASSAN.plats)} · alla skolor på ett ställe</span></span>
+    <span class="oh-what"><span class="n">${esc(MASSAN.namn)} 2026</span><span class="t">${esc(MASSAN.plats)} · gratis, men alla besökare behöver en biljett</span></span>
     <span class="oh-acts"><a href="${esc(MASSAN.url)}" target="_blank" rel="noopener noreferrer">gymnasiemassan.nu ↗</a></span>
   </div>`;
 
@@ -1505,7 +1543,7 @@ function renderAgenda() {
     .join('');
 
   el('agenda').innerHTML = allt + (poster.length ? '' :
-    `<div class="empty" style="margin-top:8px">Inga öppna hus inlagda än. Skolorna publicerar sina datum under september och oktober – hittar du ett, lägg in det nedan. Då syns det både här och som märke på skolans rader under Chansen.</div>`);
+    `<div class="empty" style="margin-top:8px">Inga öppna hus inlagda än. Skolorna publicerar sina datum på sina egna webbplatser – hittar du ett, lägg in det nedan. Då syns det både här och som märke på skolans rader under Chansen.</div>`);
 }
 
 function laggTillOppetHus() {
@@ -1582,21 +1620,112 @@ async function lasKod(kod) {
 function tillampaKod(o) {
   const antal = { val: 0, oh: 0, betyg: 0 };
   if (typeof o.merit === 'number') { state.merit = Math.max(0, Math.min(340, o.merit)); state.meritSatt = !!o.meritSatt; }
+  // Koden kan komma från en länk någon annan skickat: släpp bara in väntade värden.
   if (Array.isArray(o.lista)) {
-    state.lista = o.lista.filter((k) => BY_KEY.has(k)).slice(0, 30);
+    state.lista = [...new Set(o.lista)].filter((k) => BY_KEY.has(k)).slice(0, 30);
     antal.val = state.lista.length;
   }
-  if (o.anteckningar && typeof o.anteckningar === 'object') state.anteckningar = o.anteckningar;
-  if (o.hemsidor && typeof o.hemsidor === 'object') state.hemsidor = o.hemsidor;
+  if (o.anteckningar && typeof o.anteckningar === 'object') {
+    state.anteckningar = Object.fromEntries(Object.entries(o.anteckningar)
+      .filter(([k, v]) => BY_KEY.has(k) && typeof v === 'string'));
+  }
+  if (o.hemsidor && typeof o.hemsidor === 'object') {
+    state.hemsidor = Object.fromEntries(Object.entries(o.hemsidor)
+      .filter(([k]) => SKOLNYCKLAR.has(k))
+      .map(([k, v]) => [k, stadaUrl(v)])
+      .filter(([, v]) => v));
+  }
   if (Array.isArray(o.oppetHus)) {
-    state.oppetHus = o.oppetHus.filter((x) => x && SKOLNYCKLAR.has(x.s) && /^\d{4}-\d{2}-\d{2}$/.test(x.d));
+    state.oppetHus = o.oppetHus
+      .filter((x) => x && SKOLNYCKLAR.has(x.s) && /^\d{4}-\d{2}-\d{2}$/.test(x.d))
+      .map((x) => ({ s: x.s, d: x.d, ...(typeof x.t === 'string' && x.t ? { t: x.t } : {}) }));
     antal.oh = state.oppetHus.length;
   }
   if (o.betyg && typeof o.betyg === 'object') {
-    state.betyg = o.betyg;
-    antal.betyg = Object.keys(o.betyg).length;
+    const amnen = new Set([...SUBJECTS.map((s) => s.k), LANG.k]);
+    state.betyg = Object.fromEntries(Object.entries(o.betyg)
+      .filter(([k, v]) => amnen.has(k) && typeof v === 'string' && Object.hasOwn(POINTS, v)));
+    antal.betyg = Object.keys(state.betyg).length;
   }
   return antal;
+}
+
+// Användbar som länk nu när sidan har en egen adress.
+async function delaLank() {
+  const msg = el('delaMsg');
+  const ut = el('kodUt');
+  const medBetyg = el('delaBetyg').checked;
+  msg.className = 'dela-msg';
+  let lank;
+  try {
+    lank = `${location.origin}${location.pathname}#${await skapaKod(medBetyg)}`;
+  } catch (err) {
+    msg.classList.add('fel');
+    msg.textContent = 'Kunde inte skapa länken.';
+    return;
+  }
+  const betygInfo = medBetyg ? ' Länken innehåller betygen, så skicka den bara till någon du litar på.' : '';
+  if (navigator.share) {
+    try {
+      await navigator.share({ title: 'Gymnasiekollen – vallista', url: lank });
+      ut.hidden = true;
+      msg.classList.add('ok');
+      msg.textContent = `Delad – ${state.lista.length} val.${betygInfo}`;
+      return;
+    } catch (err) {
+      if (err && err.name === 'AbortError') return;
+    }
+  }
+  ut.value = lank;
+  try {
+    await navigator.clipboard.writeText(lank);
+    ut.hidden = true;
+    msg.classList.add('ok');
+    msg.textContent = `Länken är kopierad – ${state.lista.length} val.${betygInfo}`;
+  } catch (err) {
+    ut.hidden = false;
+    ut.focus();
+    ut.select();
+    msg.textContent = `Markera länken nedan och kopiera den för hand.${betygInfo}`;
+  }
+}
+
+// En länk ska aldrig skriva över något förrän mottagaren har sagt ja.
+let lankKod = null;
+function stangLankruta() {
+  lankKod = null;
+  el('lankRuta').hidden = true;
+}
+async function visaLankruta(kod) {
+  lankKod = kod;
+  showTab('tab-lista');
+  el('lankRuta').hidden = false;
+  el('lankOppna').hidden = true;
+  try {
+    const o = await lasKod(kod);
+    const delar = [];
+    if (Array.isArray(o.lista)) delar.push(`${o.lista.filter((k) => BY_KEY.has(k)).length} val`);
+    if (typeof o.merit === 'number') delar.push(`meritvärde ${pt(o.merit)}`);
+    if (o.betyg && typeof o.betyg === 'object') delar.push('betyg');
+    el('lankText').textContent = `Listan innehåller ${delar.join(', ') || 'inga uppgifter'}. Öppnar du den ersätter den det som finns sparat här`
+      + (state.lista.length ? ` – bland annat din vallista med ${state.lista.length} val.` : '.');
+    el('lankOppna').hidden = false;
+    el('lankOppna').focus();
+  } catch (err) {
+    lankKod = null;
+    el('lankText').textContent = `Länken gick inte att läsa. ${err.message}`;
+  }
+}
+async function oppnaLank() {
+  if (!lankKod) return;
+  const o = await lasKod(lankKod);
+  const antal = tillampaKod(o);
+  save();
+  renderAll();
+  stangLankruta();
+  const msg = el('delaMsg');
+  msg.className = 'dela-msg ok';
+  msg.textContent = `Öppnad: ${antal.val} val, ${antal.oh} öppet hus${antal.betyg ? `, ${antal.betyg} betyg` : ''}, meritvärde ${pt(state.merit)}.`;
 }
 
 async function kopieraKod() {
@@ -1756,21 +1885,25 @@ function renderVadom(nuMerit) {
 }
 
 /* --------------------------------------------------------------- datum --- */
+// Antagningen 2027, enligt gymnasieantagningen.storsthlm.se/viktiga-datum (hämtat 2026-11-08).
 const TIMELINE = [
-  { w: 'November', d: '2026-11-01', t: 'Utbudet publiceras', p: 'Alla utbildningar läggs upp på ansökningswebben Indra. Öppet hus och Gymnasiemässan ligger under hösten – börja där.', key: false },
-  { w: 'Vecka 3', d: '2027-01-12', t: 'Inloggningsuppgifter kommer med posten', p: 'Till Indra på indra.storsthlm.se. Hör av dig till studie- och yrkesvägledaren om brevet inte kommer.', key: false },
-  { w: '15 jan – 16 feb', d: '2027-01-15', de: '2027-02-16', t: 'Ansökan öppen', p: 'Här görs valet: upp till 30 utbildningar i egen rangordning. Ansökan bygger på höstterminens betyg.', key: true },
-  { w: '17 feb – 7 apr', d: '2027-02-17', de: '2027-04-07', t: 'Webben stängd', p: 'Antagningen arbetar med ansökningarna. Inga ändringar går att göra.', key: false },
-  { w: '18 feb', d: '2027-02-18', t: 'Besked om färdighetsprov', p: 'Kallelser till prov för estetiska utbildningar, spetsutbildningar och idrottsutbildningar dyker upp under Mina meddelanden och i mejlen.', key: false },
-  { w: '24 mar – 7 apr', d: '2027-03-24', de: '2027-04-07', t: 'Resultat från färdighetsprov', p: 'Provpoängen läggs till meritvärdet på de utbildningar som har prov.', key: false },
-  { w: '14 april', d: '2027-04-14', t: 'Preliminär antagning', p: 'En temperaturmätare på höstbetygen, inte ett besked. Samtidigt öppnar omvalsperioden.', key: true },
-  { w: '12 maj', d: '2027-05-12', t: 'Sista dag för ansökan och omval', p: 'Webben stänger 23:59. Ändringar under omvalsperioden ger ingen nackdel mot dem som sökte i februari.', key: true },
-  { w: '24 juni', d: '2027-06-24', t: 'Slutbetygen in', p: 'Sista dag att lämna in vårterminens betyg. Inloggningen stänger på kvällen.', key: false },
-  { w: '1 juli', d: '2027-07-01', t: 'Slutantagningen publiceras', p: 'Det skarpa beskedet, byggt på slutbetygen. Nu syns också årets antagningsgränser.', key: true },
-  { w: '16 juli', d: '2027-07-16', t: 'Sista svarsdag', p: 'Svara i Indra – ett obesvarat besked kan kosta platsen.', key: true },
-  { w: '29 juli – 4 aug', d: '2027-07-29', de: '2027-08-04', t: 'Första reservantagningen', p: 'Lediga platser fördelas till reserver. Svarsdag i början av augusti.', key: false },
-  { w: '6 – 10 aug', d: '2027-08-06', de: '2027-08-10', t: 'Andra reservantagningen', p: 'Sista centrala omgången.', key: false },
-  { w: 'Från 11 aug', d: '2027-08-11', t: 'Skolorna tar över', p: 'Därefter sköter varje skola sin egen reservlista – ring skolan och fråga om könumret.', key: false },
+  { w: '10 nov', d: '2026-11-10', t: 'Utbudet för 2027 visas', p: 'Utbildningarna syns på ansökningswebben och listan uppdateras löpande. Har skolan skapat ett konto kan du nu logga in med e-legitimation.', key: false },
+  { w: '17 – 19 nov', d: '2026-11-17', de: '2026-11-19', t: 'Gymnasiemässan', p: 'Stockholmsmässan i Älvsjö. Gratis, men alla besökare behöver en biljett.', key: false },
+  { w: '11 dec', d: '2026-12-11', t: 'Inloggning utan e-legitimation', p: 'Saknar du BankID eller Freja+ skriver skolan ut dina inloggningsuppgifter – de kommer inte med posten. Mejl från antagningen hamnar ofta i skräpposten, så titta där också.', key: false },
+  { w: '14 jan – 15 feb', d: '2027-01-14', de: '2027-02-15', t: 'Ansökan öppen', p: 'Här görs valet: upp till 30 utbildningar i egen rangordning. Ansökan bygger på höstterminens betyg.', key: true },
+  { w: '16 feb – 6 apr', d: '2027-02-16', de: '2027-04-06', t: 'Ansökan stängd', p: 'Antagningen arbetar med ansökningarna. Du kan logga in och se dina val och betyg, men omvalet öppnar först i april.', key: false },
+  { w: '17 feb', d: '2027-02-17', t: 'Besked om färdighetsprov', p: 'Du som sökt en utbildning med prov får beskedet via Mitt gymnasieval.', key: false },
+  { w: '23 mar – 6 apr', d: '2027-03-23', de: '2027-04-06', t: 'Resultat från färdighetsprov', p: 'Har du gjort prov kan du logga in och se resultatet.', key: false },
+  { w: '7 – 12 apr', d: '2027-04-07', de: '2027-04-12', t: 'Ansökningswebben stängd', p: 'Det går inte att logga in under de här dagarna.', key: false },
+  { w: '13 april', d: '2027-04-13', t: 'Preliminär antagning', p: 'En temperaturmätare på höstbetygen, inte ett besked. Samtidigt öppnar omvalsperioden.', key: true },
+  { w: '12 maj', d: '2027-05-12', t: 'Sista dag för ansökan och omval', p: 'Webben stänger 23:59. Ändringar under omvalsperioden ger ingen nackdel mot dem som sökte i februari. Missar du dagen finns sen ansökan 8–16 juni.', key: true },
+  { w: '12 juni', d: '2027-06-12', t: 'Kontrollera slutbetygen', p: 'Logga in och se att slutbetygen och eventuella provresultat stämmer.', key: false },
+  { w: '22 juni', d: '2027-06-22', t: 'Inloggningen stänger', p: 'Stänger 20:00. Också sista dagen att lämna in betyg från lovskola inför slutantagningen.', key: false },
+  { w: '1 juli', d: '2027-07-01', t: 'Slutantagningen publiceras', p: 'Det skarpa beskedet, byggt på slutbetygen. Logga in och svara. Nu syns också årets antagningsgränser.', key: true },
+  { w: '15 juli', d: '2027-07-15', t: 'Sista svarsdag', p: 'Svara på ansökningswebben – ett obesvarat besked kan kosta platsen.', key: true },
+  { w: '29 juli – 4 aug', d: '2027-07-29', de: '2027-08-04', t: 'Första reservantagningen', p: 'Lediga platser fördelas till reserver. Har ditt resultat ändrats ska du svara senast 4 augusti.', key: false },
+  { w: '6 – 10 aug', d: '2027-08-06', de: '2027-08-10', t: 'Andra reservantagningen', p: 'Sista centrala omgången. Har ditt resultat ändrats ska du svara senast 10 augusti.', key: false },
+  { w: 'Från 11 aug', d: '2027-08-11', t: 'Skolorna tar över', p: 'Till 31 augusti följer skolorna Gymnasieantagningens reservlistor, från 1 september sina egna. Ring skolan och fråga om könumret.', key: false },
 ];
 
 // Determine timeline status for each item relative to today
@@ -1937,6 +2070,9 @@ el('theme').addEventListener('click', () => {
   document.documentElement.setAttribute('data-theme', dark ? 'light' : 'dark');
 });
 
+el('delaLank').addEventListener('click', delaLank);
+el('lankOppna').addEventListener('click', oppnaLank);
+el('lankAvbryt').addEventListener('click', stangLankruta);
 el('kopieraKod').addEventListener('click', kopieraKod);
 el('oppnaKod').addEventListener('click', oppnaKod);
 el('ohAdd').addEventListener('click', laggTillOppetHus);
@@ -1970,30 +2106,61 @@ function showTab(id) {
     const btn = el(t);
     const panel = el(btn.getAttribute('aria-controls'));
     btn.setAttribute('aria-selected', String(t === id));
+    btn.tabIndex = t === id ? 0 : -1;
     panel.hidden = t !== id;
   }
+  // Graferna mäter sin bredd och går inte att rita rätt medan fliken är dold.
+  if (id === 'tab-chans') renderRows();
+  if (id === 'tab-lista') renderPicks();
 }
 for (const t of TABS) el(t).addEventListener('click', () => showTab(t));
+document.querySelector('nav.tabs').addEventListener('keydown', (ev) => {
+  const i = TABS.indexOf(ev.target.id);
+  if (i < 0) return;
+  const mal = { ArrowRight: (i + 1) % TABS.length, ArrowLeft: (i - 1 + TABS.length) % TABS.length, Home: 0, End: TABS.length - 1 }[ev.key];
+  if (mal === undefined) return;
+  ev.preventDefault();
+  showTab(TABS[mal]);
+  el(TABS[mal]).focus();
+  el(TABS[mal]).scrollIntoView({ block: 'nearest', inline: 'nearest' });
+});
+for (const t of TABS) el(el(t).getAttribute('aria-controls')).tabIndex = 0;
+
+let breddTimer = 0;
+let senasteBredd = window.innerWidth;
+window.addEventListener('resize', () => {
+  if (window.innerWidth === senasteBredd) return;
+  senasteBredd = window.innerWidth;
+  clearTimeout(breddTimer);
+  breddTimer = setTimeout(() => {
+    if (!el('p-chans').hidden) renderRows();
+    if (!el('p-lista').hidden) renderPicks();
+  }, 150);
+});
 
 el('metaYears').textContent = D.meta.ar.join(', ');
 el('metaCounts').textContent = `${D.meta.antalUtbildningar} utbildningar på ${D.meta.antalSkolor} skolor i ${D.kommuner.length} kommuner.`;
 el('metaDate').textContent = D.meta.hamtad;
 
-// Hostas sidan fristående kan koden ligga i adressens hash: #GK1...
-try {
-  const hash = decodeURIComponent(String(location.hash || '').replace(/^#s?=?/, ''));
-  if (hash.startsWith(KOD_PREFIX)) {
-    el('kodIn').value = hash;
-    el('kodInMsg').textContent = 'En kod följde med länken – tryck "Öppna koden" för att läsa in den.';
-    showTab('tab-lista');
-    history.replaceState(null, '', location.pathname + location.search);
-  }
-} catch (err) { /* ingen hash att bry sig om */ }
-
 renderChips();
 renderSkolLista();
 renderTimeline();
+showTab('tab-chans');
 renderAll();
+
+// En delad länk bär koden i adressens hash: #GK1...
+function lasLankFranAdressen() {
+  try {
+    const hash = decodeURIComponent(String(location.hash || '').replace(/^#s?=?/, ''));
+    if (hash.startsWith(KOD_PREFIX)) {
+      // Ta bort koden direkt, så att eventuella betyg inte blir kvar i adressfältet.
+      history.replaceState(null, '', location.pathname + location.search);
+      visaLankruta(hash);
+    }
+  } catch (err) { /* ingen hash att bry sig om */ }
+}
+lasLankFranAdressen();
+window.addEventListener('hashchange', lasLankFranAdressen);
 connect();
 
 </script>

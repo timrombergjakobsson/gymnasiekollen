@@ -1,4 +1,5 @@
 // Fogar in dataset.json i app-mallen, omsluter med fullständig HTML och skriver index.html.
+import { createHash } from 'node:crypto';
 import { readFileSync, writeFileSync } from 'node:fs';
 
 const ROOT = new URL('..', import.meta.url).pathname;
@@ -50,3 +51,13 @@ ${scriptMatch?.[1] ?? ''}
 
 writeFileSync(`${ROOT}index.html`, html);
 console.log(`index.html: ${(html.length / 1024).toFixed(0)} kB`);
+
+// Stämpla service workern så att webbläsaren installerar om den när sidan har ändrats.
+const swPath = `${ROOT}sw.js`;
+const swMall = readFileSync(swPath, 'utf8');
+const swUtanStampel = swMall.replace(/const CACHE = '[^']*';/, "const CACHE = '';");
+const version = createHash('sha256').update(html).update(swUtanStampel).digest('hex').slice(0, 10);
+const sw = swMall.replace(/const CACHE = '[^']*';/, `const CACHE = 'gymnasiekollen-${version}';`);
+if (sw === swMall && !swMall.includes(version)) throw new Error('sw.js saknar raden med CACHE');
+writeFileSync(swPath, sw);
+console.log(`sw.js: gymnasiekollen-${version}`);

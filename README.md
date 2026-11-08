@@ -9,7 +9,7 @@ Källdatan täcker hela Storsthlms samverkansområde, som även omfattar Håbo
 `scripts/build-dataset.mjs` via `UTANFOR_STOCKHOLMS_LAN` – ta bort kommunen ur
 den mängden för att ta in den igen.
 
-Publicerad som Artifact: `https://claude.ai/code/artifact/0586fe7c-a85e-4b1f-9b46-fd29313033c4`
+Publicerad på GitHub Pages: <https://timrombergjakobsson.github.io/gymnasiekollen/>
 
 ## Struktur
 
@@ -21,7 +21,8 @@ Publicerad som Artifact: `https://claude.ai/code/artifact/0586fe7c-a85e-4b1f-9b4
 | `index.html` | Genererad, publicerbar fil (mall + data inbakad). Redigera inte direkt. |
 | `scripts/xlsx2json.mjs` | Läser en uppackad `.xlsx` utan beroenden. |
 | `scripts/build-dataset.mjs` | Slår ihop åren, klassar program, skriver `dataset.json`. |
-| `scripts/build.mjs` | Bakar in datan i mallen, skriver `index.html`. |
+| `scripts/build.mjs` | Bakar in datan i mallen, skriver `index.html`, stämplar `sw.js` med en ny version. |
+| `sw.js` | Service worker. Sidan hämtas från nätet först, med sparad version som reserv efter 3 sekunder eller utan nät. |
 
 ## Bygga om
 
@@ -59,9 +60,9 @@ kolumnnamn och klarar båda varianterna.
   chansbedömningen, eftersom den inte går att jämföra med ett rent meritvärde.
 - Historik matchas på `kommun|skola|studievag`. Gy25-reformen bytte namn på flera
   program, så 2024 matchar bara ~51 % av 2026-raderna; omatchade år visas som `–`.
-- Tidplanen i appen är 2026-omgångens datum. Datum för antagningen 2027
-  publiceras under hösten 2026 och bör stämmas av mot
-  [viktiga datum](https://gymnasieantagningen.storsthlm.se/viktiga-datum).
+- Tidplanen (`TIMELINE` i mallen) gäller antagningen 2027, hämtad 2026-11-08 från
+  [viktiga datum](https://gymnasieantagningen.storsthlm.se/viktiga-datum). Texten
+  ovanför tidplanen anger hämtdatumet: uppdatera båda vid nästa genomgång.
 
 ## Skollänkar och öppet hus
 
@@ -93,7 +94,7 @@ den den var byggd för. Koden för `db` ligger kvar i `connect()` och är testad
 En backup av det gamla delade dokumentet ligger i `backup/state/app.json`
 (gitignorerad – innehåller personuppgifter).
 
-I stället delas tillståndet med en **kod** från fliken Vallistan:
+I stället delas tillståndet med en **länk** eller **kod** från fliken Vallistan:
 
 - `skapaKod()` packar tillståndet till JSON, deflate-komprimerar via
   `CompressionStream` och base64url-kodar det. Prefix `GK1z` för komprimerat,
@@ -102,7 +103,9 @@ I stället delas tillståndet med en **kod** från fliken Vallistan:
 - Betygen är personuppgifter och följer bara med om kryssrutan är i.
 - `tillampaKod()` skriver bara över de fält som finns i koden, så en lista utan
   betyg inte nollställer mottagarens egna betyg.
-- Ligger en kod i adressens hash (`#GK1...`) förifylls den vid inläsning. Det är
-  bara användbart om sidan hostas fristående – inne i claude.ai kör sidan i en
-  sandlåde-iframe på egen origin, så en claude.ai-URL kan inte bära koden.
+- En delad länk bär koden i adressens hash (`#GK1...`). Hashen skickas inte till
+  servern och tas bort ur adressfältet direkt. Inget skrivs över förrän mottagaren
+  har tryckt "Öppna listan".
+- `tillampaKod()` behandlar koden som opålitlig indata: okända nycklar och värden
+  tas bort, och hemsidor går genom `stadaUrl()`.
 - Koden fungerar också som backup av allt som är sparat lokalt.
