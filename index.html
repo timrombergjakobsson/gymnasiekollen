@@ -914,7 +914,9 @@ const EDU = D.utbildningar.map((r) => {
   const lagsta = positive.length ? Math.min(...positive) : null;
   const text = `${skola.namn} ${skola.kommun} ${prog.name} ${r.p} ${r.inr || ''} ${r.kod}`;
   return {
-    key: `${norm(skola.namn)}|${r.kod}`,
+    // Samma skola och programkod kan ha flera inriktningar, så inriktningen måste ingå.
+    key: `${norm(skola.namn)}|${r.kod}|${norm(r.inr)}`,
+    gammalNyckel: `${norm(skola.namn)}|${r.kod}`,
     skola, prog, kod: r.p, kodFull: r.kod, inr: r.inr,
     gransar, g26, ref, hogsta, lagsta,
     median: r.med, platser: r.pl, antagna: r.an, reserver: r.res, lediga: r.led,
@@ -926,6 +928,14 @@ const EDU = D.utbildningar.map((r) => {
   };
 });
 const BY_KEY = new Map(EDU.map((e) => [e.key, e]));
+// Äldre sparade listor och delningskoder använder nyckeln utan inriktning. Den pekade på
+// den sista raden med samma skola och kod, och det är den raden Vallistan visade då.
+const GAMLA_NYCKLAR = new Map(EDU.map((e) => [e.gammalNyckel, e.key]));
+const nyNyckel = (k) => (BY_KEY.has(k) ? k : GAMLA_NYCKLAR.get(k));
+const nyaNycklar = (lista) => [...new Set(lista.map(nyNyckel))].filter(Boolean);
+const nyaAnteckningar = (o) => Object.fromEntries(Object.entries(o)
+  .map(([k, v]) => [nyNyckel(k), v])
+  .filter(([k, v]) => k && typeof v === 'string'));
 
 const SKOLA_PER_NYCKEL = new Map(D.skolor.map((sk) => [norm(sk.namn), sk]));
 const SKOLNYCKLAR = new Set(SKOLA_PER_NYCKEL.keys());
@@ -1056,8 +1066,8 @@ function apply(s) {
   if (typeof s.merit === 'number') state.merit = s.merit;
   state.meritSatt = !!s.meritSatt;
   state.betyg = s.betyg && typeof s.betyg === 'object' ? s.betyg : {};
-  state.lista = Array.isArray(s.lista) ? s.lista.filter((k) => BY_KEY.has(k)) : [];
-  state.anteckningar = s.anteckningar && typeof s.anteckningar === 'object' ? s.anteckningar : {};
+  state.lista = Array.isArray(s.lista) ? nyaNycklar(s.lista) : [];
+  state.anteckningar = s.anteckningar && typeof s.anteckningar === 'object' ? nyaAnteckningar(s.anteckningar) : {};
   state.hemsidor = s.hemsidor && typeof s.hemsidor === 'object' ? s.hemsidor : {};
   state.oppetHus = Array.isArray(s.oppetHus)
     ? s.oppetHus.filter((o) => o && SKOLNYCKLAR.has(o.s) && /^\d{4}-\d{2}-\d{2}$/.test(o.d))
@@ -1622,12 +1632,11 @@ function tillampaKod(o) {
   if (typeof o.merit === 'number') { state.merit = Math.max(0, Math.min(340, o.merit)); state.meritSatt = !!o.meritSatt; }
   // Koden kan komma från en länk någon annan skickat: släpp bara in väntade värden.
   if (Array.isArray(o.lista)) {
-    state.lista = [...new Set(o.lista)].filter((k) => BY_KEY.has(k)).slice(0, 30);
+    state.lista = nyaNycklar(o.lista).slice(0, 30);
     antal.val = state.lista.length;
   }
   if (o.anteckningar && typeof o.anteckningar === 'object') {
-    state.anteckningar = Object.fromEntries(Object.entries(o.anteckningar)
-      .filter(([k, v]) => BY_KEY.has(k) && typeof v === 'string'));
+    state.anteckningar = nyaAnteckningar(o.anteckningar);
   }
   if (o.hemsidor && typeof o.hemsidor === 'object') {
     state.hemsidor = Object.fromEntries(Object.entries(o.hemsidor)
@@ -1704,7 +1713,7 @@ async function visaLankruta(kod) {
   try {
     const o = await lasKod(kod);
     const delar = [];
-    if (Array.isArray(o.lista)) delar.push(`${o.lista.filter((k) => BY_KEY.has(k)).length} val`);
+    if (Array.isArray(o.lista)) delar.push(`${nyaNycklar(o.lista).length} val`);
     if (typeof o.merit === 'number') delar.push(`meritvärde ${pt(o.merit)}`);
     if (o.betyg && typeof o.betyg === 'object') delar.push('betyg');
     el('lankText').textContent = `Listan innehåller ${delar.join(', ') || 'inga uppgifter'}. Öppnar du den ersätter den det som finns sparat här`

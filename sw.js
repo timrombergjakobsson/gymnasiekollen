@@ -1,6 +1,6 @@
 // CACHE stämplas av scripts/build.mjs med en hash av innehållet. Filen ändras då
 // vid varje ny version, vilket är det som får webbläsaren att installera om den.
-const CACHE = 'gymnasiekollen-ee1c3202b0';
+const CACHE = 'gymnasiekollen-b3f7724208';
 const ASSETS = ['./', './index.html', './manifest.json', './icon-192.png', './icon-512.png'];
 const FONT_HOSTS = ['fonts.googleapis.com', 'fonts.gstatic.com'];
 const NAT_TIMEOUT_MS = 3000;
